@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import Tile from './Tile';
+import './Column.css';
 
 class Column extends Component {
   constructor(props) {

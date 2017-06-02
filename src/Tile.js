@@ -1,6 +1,7 @@
 //The Tile is the basic reflection of the Issue
 
 import React, {Component} from 'react';
+import './Tile.css';
 
 class Tile extends Component {
     constructor(props) {
