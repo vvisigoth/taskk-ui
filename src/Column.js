@@ -7,14 +7,14 @@ import './Column.css';
 class Column extends Component {
   constructor(props) {
     super(props);
-    console.debug(props);
 
     this.renderTiles = this.renderTiles.bind(this);
     this.state = props.colData
   }
   renderTiles() {
+    const marginTop = 0;
     return this.state.issues.map(t => (
-      <Tile key={t.issue} issueData={t}/>
+      <Tile key={t.issue} issueData={t} bumpAmt={ marginTop }/>
     ));
   }
   render() {
