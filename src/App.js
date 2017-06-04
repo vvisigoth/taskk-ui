@@ -26,28 +26,28 @@ class App extends Component{
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
-                  description: 'As above, so below'
+                  description: 'As above, so below\n\n\n\n\n'
                 },
                 {
                   issue: '456',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
-                  description: 'As above, so below'
+                  description: 'As above, \n\nso below'
                 },
                 {
                   issue: '789',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
-                  description: 'As above, so below'
+                  description: 'As above, so \n\nbelow'
                 },
                 {
                   issue: '321',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
-                  description: 'As above, so below'
+                  description: 'As above, so below\n\n\n\n\n\n'
                 }
               ]
           },
