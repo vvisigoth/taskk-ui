@@ -5,8 +5,15 @@ import './App.css';
 class App extends Component{
   constructor(props) {
     super(props);
+
+    //window.urb.appl = "taskk";
+
+    //window.urb.bind('/~rosfet-ronlyn-mirdel-sillev--satnes-haphul-habryg-loppeg/anewboard', (e,d) => {
+    //  console.debug(e);
+    //  console.debug(d);
+    //});
+
     this.renderColumns = this.renderColumns.bind(this);
-    // fetch full board
     this.state = {
       board: 
         [
@@ -149,10 +156,20 @@ class App extends Component{
         ]
     };
   }
+  findNeighbor(key, dir) {
+    // utility for finding the node that must be messed with, moved
+  }
   renderColumns() {
     return this.state.board.map(c => (
       <Column key={c.name} colData={c}/>
     ));
+  }
+  requestBoard(h, b) {
+    window.urb.send({
+        action: 'request-board',
+        host: '~rosfet-ronlyn-mirdel-sillev--satnes-haphul-habryg-loppeg',
+        board: 'anewboard'
+    });
   }
   render() {
     return (
