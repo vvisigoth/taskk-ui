@@ -4,3 +4,10 @@ You can find the most recent version of the Create React App guide [here](https:
 
 
 # UI for Urbit Taskk App
+
+- gridNeighbor
+- bump
+- slide
+- redux
+- wireup
+- keyshortcuts
