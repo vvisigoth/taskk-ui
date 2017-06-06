@@ -18,10 +18,24 @@ class Tile extends Component {
     this.classNames = this.classNames.bind(this);
     this.expand = this.expand.bind(this);
     this.activate = this.activate.bind(this);
+    this.findNeighbor = this.findNeighbor.bind(this);
+    this.measureTile = this.measureTile.bind(this);
+    this.test = this.test.bind(this);
   }
   submitChanges() {
     console.debug("submit");
     return;
+  }
+
+  findNeighbor(dim, dir) {
+    return this.props.findNeighbor(dim, dir);
+  }
+  componentDidMount() {
+    //console.debug(this.refs.tile.getBoundingClientRect());
+    this.measureTile();
+    // just a test
+    //console.debug(this.state);
+    //this.findNeighbor(this.state.dimensions, 'right');
   }
   activate() {
     if (this.state.active) {

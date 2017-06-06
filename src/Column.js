@@ -9,12 +9,17 @@ class Column extends Component {
     super(props);
 
     this.renderTiles = this.renderTiles.bind(this);
-    this.state = props.colData
+    this.findNeighbor = this.findNeighbor.bind(this);
+    this.state = props.colData;
+    this.state.tileList = [];
+  }
+  findNeighbor(dim, dir) {
+    return this.props.findNeighbor(dim, dir);
   }
   renderTiles() {
     const marginTop = 0;
     return this.state.issues.map(t => (
-      <Tile key={t.issue} issueData={t} bumpAmt={ marginTop }/>
+      <Tile key={t.issue} findNeighbor={this.findNeighbor} issueData={t} bumpAmt={ marginTop } ref={i => {this.state.tileList.push(i)}}/>
     ));
   }
   render() {
