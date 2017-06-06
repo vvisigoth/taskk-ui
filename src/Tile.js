@@ -1,7 +1,7 @@
 //The Tile is the basic reflection of the Issue
 
 import React, {Component} from 'react';
-import Measure from 'react-measure';
+//import Measure from 'react-measure';
 import './Tile.css';
 
 class Tile extends Component {
@@ -53,6 +53,22 @@ class Tile extends Component {
     }
     return
   }
+  measureTile() {
+    let rect = this.refs.tile.getBoundingClientRect();
+    // people get mad at this, but otherwise it lags
+    this.state.dimensions =
+          {
+            top: rect.top,
+            bottom: rect.bottom,
+            left: rect.left,
+            right: rect.right,
+            width: rect.width,
+            height: rect.height
+          };
+  }
+  test() {
+    this.findNeighbor(this.state.dimensions, 'right');
+  }
   classNames() {
     let c = ['tile'];
     const count = (this.state.issueData.description.match(/[\r\n]/g) || []).length;
@@ -76,25 +92,16 @@ class Tile extends Component {
   }
   render() {
     return (
-      <Measure 
-        bounds 
-        onResize={(contentRect) => {
-          this.setState({dimensions: contentRect.bounds })
-        }}
-      >
-        {({measureRef}) => (
-          <div ref={measureRef} className={this.classNames()} onClick={this.activate} style={{ marginTop: this.props.bumpAmt}} > 
-            <div className="tile-container"> 
-              <input className="title" type="text" value={this.state.issueData.title}/> 
-              <input className="author" type="text" value={this.state.issueData.author}/> 
-            </div> 
-            <div className="indicator"></div> 
-            <textarea className="description" value={this.state.issueData.description}></textarea> 
-            <input className="assignee" type="text" value={this.state.issueData.assignee}/> 
-            <input className="submit" type="submit" onClick={this.submitChanges}/> 
-          </div>
-        )}
-      </Measure>
+      <div ref='tile' className={this.classNames()} onClick={this.test} style={{ marginTop: this.props.bumpAmt}} > 
+        <div className="tile-container"> 
+          <input className="title" type="text" value={this.state.issueData.title}/> 
+          <input className="author" type="text" value={this.state.issueData.author}/> 
+        </div> 
+        <div className="indicator"></div> 
+        <textarea className="description" value={this.state.issueData.description}></textarea> 
+        <input className="assignee" type="text" value={this.state.issueData.assignee}/> 
+        <input className="submit" type="submit" onClick={this.submitChanges}/> 
+      </div>
     );
   }       
 };
