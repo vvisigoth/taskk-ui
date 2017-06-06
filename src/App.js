@@ -14,6 +14,7 @@ class App extends Component{
     //});
 
     this.renderColumns = this.renderColumns.bind(this);
+
     this.state = {
       board: 
         [
@@ -22,28 +23,28 @@ class App extends Component{
             issues: 
               [
                 {
-                  issue: '123',
+                  issue: '25',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below\n\n\n\n\n'
                 },
                 {
-                  issue: '456',
+                  issue: '32',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, \n\nso below'
                 },
                 {
-                  issue: '789',
+                  issue: '39',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so \n\nbelow'
                 },
                 {
-                  issue: '321',
+                  issue: '46',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
@@ -56,28 +57,28 @@ class App extends Component{
             issues: 
               [
                 {
-                  issue: '123',
+                  issue: '59',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below'
                 },
                 {
-                  issue: '456',
+                  issue: '66',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below'
                 },
                 {
-                  issue: '789',
+                  issue: '73',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below'
                 },
                 {
-                  issue: '321',
+                  issue: '80',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
@@ -90,28 +91,28 @@ class App extends Component{
             issues: 
               [
                 {
-                  issue: '123',
+                  issue: '93',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below'
                 },
                 {
-                  issue: '456',
+                  issue: '100',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below'
                 },
                 {
-                  issue: '789',
+                  issue: '107',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below'
                 },
                 {
-                  issue: '321',
+                  issue: '114',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
@@ -124,28 +125,28 @@ class App extends Component{
             issues: 
               [
                 {
-                  issue: '123',
+                  issue: '127',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below'
                 },
                 {
-                  issue: '456',
+                  issue: '134',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below'
                 },
                 {
-                  issue: '789',
+                  issue: '141',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
                   description: 'As above, so below'
                 },
                 {
-                  issue: '321',
+                  issue: '148',
                   title: 'Some Title',
                   author: '~poldec',
                   assignee: '~zod',
