@@ -10,6 +10,9 @@ class Tile extends Component {
     this.state = {issueData: props.issueData};
     this.state.expanded = false;
     this.state.active = false;
+    this.state.bumpAmt = 0;
+    this.state.ogMarg = 0;
+    this.state.bumped = false;
     this.state.dimensions = {
       width: -1,
       height: -1,
@@ -18,24 +21,42 @@ class Tile extends Component {
     this.classNames = this.classNames.bind(this);
     this.expand = this.expand.bind(this);
     this.activate = this.activate.bind(this);
-    this.findNeighbor = this.findNeighbor.bind(this);
+    this.clearWay = this.clearWay.bind(this);
+    this.moveTile = this.moveTile.bind(this);
     this.measureTile = this.measureTile.bind(this);
-    this.test = this.test.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.bump = this.bump.bind(this);
+    this.unBump = this.unBump.bind(this);
+    this.contract = this.contract.bind(this);
   }
   submitChanges() {
     console.debug("submit");
     return;
   }
 
-  findNeighbor(dim, dir) {
-    return this.props.findNeighbor(dim, dir);
+  unBump() {
+    this.setState({bumpAmt: 0});
+    this.setState({bumped: false});
+  }
+
+  bump(amount) {
+    //this.setState({ogMarg: this.state.bumpAmt});
+    this.setState({bumpAmt: amount});
+    this.setState({bumped: true});
+  }
+
+  clearWay(dim, dir) {
+    return this.props.clearWay(dim, dir);
+  }
+
+  moveTile(t, d) {
+    return this.props.moveTile(t, d);
   }
   componentDidMount() {
-    //console.debug(this.refs.tile.getBoundingClientRect());
     this.measureTile();
-    // just a test
-    //console.debug(this.state);
-    //this.findNeighbor(this.state.dimensions, 'right');
+  }
+  componentDidUpdate() {
+    console.debug('tile updated');
   }
   activate() {
     if (this.state.active) {
@@ -44,6 +65,9 @@ class Tile extends Component {
       this.setState({ active: true });
     }
     return
+  }
+  contract() {
+    this.setState({ expanded: false });
   }
   expand() {
     if (this.state.expanded) {
@@ -66,8 +90,10 @@ class Tile extends Component {
             height: rect.height
           };
   }
-  test() {
-    this.findNeighbor(this.state.dimensions, 'right');
+  handleClick() {
+    this.clearWay(this, 'right');
+    this.expand();
+    //this.moveTile(this, 'right');
   }
   classNames() {
     let c = ['tile'];
@@ -92,7 +118,7 @@ class Tile extends Component {
   }
   render() {
     return (
-      <div ref='tile' className={this.classNames()} onClick={this.test} style={{ marginTop: this.props.bumpAmt}} > 
+      <div ref='tile' className={this.classNames()} onClick={this.handleClick} style={{ marginTop: this.state.bumpAmt}} > 
         <div className="tile-container"> 
           <input className="title" type="text" value={this.state.issueData.title}/> 
           <input className="author" type="text" value={this.state.issueData.author}/> 

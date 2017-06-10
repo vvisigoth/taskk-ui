@@ -160,11 +160,17 @@ class App extends Component{
     this.findNeighbor = this.findNeighbor.bind(this);
     this.findTile = this.findTile.bind(this);
     this.intersectRect = this.intersectRect.bind(this);
+    this.clearWay = this.clearWay.bind(this);
+    this.unBump = this.unBump.bind(this);
+    this.contractAll = this.contractAll.bind(this);
+    this.moveTile = this.moveTile.bind(this);
+  }
+
+  moveTile(tile, dir) {
+
   }
 
   intersectRect(r1, r2) {
-    console.debug(r1);
-    console.debug(r2);
     return !(r2.left > r1.right || 
       r2.right < r1.left || 
       r2.top > r1.bottom ||
@@ -177,48 +183,77 @@ class App extends Component{
     return a
   }
 
-  findNeighbor(dimensions, dir) {
-    console.debug('findneighbor');
+  findNeighbor(eventTile, dir) {
 
-    //var sourceTile = this.findTile(key);
-    console.debug('dimensions before');
-    console.debug(dimensions);
+    // shallow copy for reference
+    let dim = eventTile.state.dimensions;
 
-    if (dir == 'left') {
-      dimensions.top = dimensions.top + 40;
-      dimensions.bottom = dimensions.bottom - 40;
-      dimensions.left = dimensions.left - (dimensions.width - 40);
-      dimensions.right = dimensions.right - (dimensions.width + 40);
-    } else if (dir == 'right') {
-      dimensions.top = dimensions.top + 40;
-      dimensions.bottom = dimensions.bottom - 40;
-      dimensions.left = dimensions.left + (dimensions.width + 40);
-      dimensions.right = dimensions.right + (dimensions.width - 40);
-    } else if (dir == 'up') {
-      dimensions.top = dimensions.top - (dimensions.height - 40);
-      dimensions.bottom = dimensions.bottom - (dimensions.height + 40);
-      dimensions.left = dimensions.left + 40;
-      dimensions.right = dimensions.right - 40;
-    } else if (dir == 'down') {
-      dimensions.top = dimensions.top + (dimensions.height + 40);
-      dimensions.bottom = dimensions.bottom + (dimensions.height - 40);
-      dimensions.left = dimensions.left + 40;
-      dimensions.right = dimensions.right - 40;
+    // needed to make a deep copy here
+    let dimen = {
+      top: dim.top,
+      right: dim.right,
+      bottom: dim.bottom,
+      left: dim.left,
+      width: dim.width,
+      height: dim.height
     }
 
-    console.debug('dimensions after');
-    console.debug(dimensions);
+    if (dir == 'left') {
+      dimen.top = dimen.top + 40;
+      dimen.bottom = dimen.bottom - 40;
+      dimen.left = dimen.left - (dimen.width - 40);
+      dimen.right = dimen.right - (dimen.width + 40);
+    } else if (dir == 'right') {
+      dimen.top = dimen.top + 40;
+      dimen.bottom = dimen.bottom - 40;
+      dimen.left = dimen.left + (dimen.width + 40);
+      dimen.right = dimen.right + (dimen.width - 40);
+    } else if (dir == 'up') {
+      dimen.top = dimen.top - (dimen.height - 40);
+      dimen.bottom = dimen.bottom - (dimen.height + 40);
+      dimen.left = dimen.left + 40;
+      dimen.right = dimen.right - 40;
+    } else if (dir == 'down') {
+      dimen.top = dimen.top + (dimen.height + 40);
+      dimen.bottom = dimen.bottom + (dimen.height - 40);
+      dimen.left = dimen.left + 40;
+      dimen.right = dimen.right - 40;
+    }
+
+    console.debug('dimen after');
+    console.debug(dimen);
 
     var inter = [];
 
-    this.state.columnList.forEach(c => { c.state.tileList.map( t => { if (this.intersectRect(dimensions, t.state.dimensions)) { inter.push(t)} })});
-
-    console.debug(inter);
+    this.state.columnList.forEach(c => { c.state.tileList.map( t => { if (this.intersectRect(dimen, t.state.dimensions) && eventTile.props.id != t.props.id) { inter.push(t)} })});
 
     return inter;
 
+  }
 
+  unBump() {
+    this.state.columnList.forEach(c => { c.state.tileList.map( t => { t.unBump() })});
+  }
 
+  contractAll(cb) {
+    this.state.columnList.forEach(c => { c.state.tileList.map( t => { t.contract() })});
+    cb();
+  }
+
+  clearWay(tile, dir) {
+    if (tile.state.expanded) {
+      console.debug('contract');
+
+      this.contractAll(this.unBump);
+    } else {
+      console.debug('expand');
+      this.contractAll(this.unBump);
+      let tarTiles = this.findNeighbor(tile, dir);
+
+      let diff = tile.state.dimensions.top - tarTiles[0].state.dimensions.top;
+      let bumpAmt = diff > 0 ? 630 + diff : 630;
+      tarTiles[0].bump(bumpAmt);
+    }
   }
 
   componentDidMount() {
@@ -226,8 +261,8 @@ class App extends Component{
   }
 
   renderColumns() {
-    return this.state.board.map(c => (
-      <Column key={c.name} colData={c} findNeighbor={this.findNeighbor} ref={i => {this.state.columnList.push(i)}}/>
+    return this.state.board.map((c, i) => (
+      <Column key={c.name} col={i} colData={c} moveTile={this.moveTile} clearWay={this.clearWay} ref={i => {this.state.columnList.push(i)}}/>
     ));
   }
 

@@ -9,18 +9,25 @@ class Column extends Component {
     super(props);
 
     this.renderTiles = this.renderTiles.bind(this);
-    this.findNeighbor = this.findNeighbor.bind(this);
+    this.clearWay = this.clearWay.bind(this);
+    this.moveTile = this.moveTile.bind(this);
     this.state = props.colData;
     this.state.tileList = [];
   }
-  findNeighbor(dim, dir) {
-    return this.props.findNeighbor(dim, dir);
+  clearWay(dim, dir) {
+    return this.props.clearWay(dim, dir);
+  }
+  moveTile(t, d) {
+    return this.props.moveTile(t, d);
   }
   renderTiles() {
-    const marginTop = 0;
     return this.state.issues.map(t => (
-      <Tile key={t.issue} findNeighbor={this.findNeighbor} issueData={t} bumpAmt={ marginTop } ref={i => {this.state.tileList.push(i)}}/>
+      <Tile key={t.issue} id={t.issue} col={this.props.col} clearWay={this.clearWay} moveTile={this.moveTile} issueData={t} ref={i => {this.state.tileList.push(i)}}/>
     ));
+  }
+  componentDidUpdate() {
+    console.debug('column updated');
+
   }
   render() {
     return (
