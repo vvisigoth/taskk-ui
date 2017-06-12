@@ -22,7 +22,7 @@ class Tile extends Component {
     this.expand = this.expand.bind(this);
     this.activate = this.activate.bind(this);
     this.clearWay = this.clearWay.bind(this);
-    this.moveTile = this.moveTile.bind(this);
+    this.slideTile = this.slideTile.bind(this);
     this.measureTile = this.measureTile.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.bump = this.bump.bind(this);
@@ -49,8 +49,8 @@ class Tile extends Component {
     return this.props.clearWay(dim, dir);
   }
 
-  moveTile(t, d) {
-    return this.props.moveTile(t, d);
+  slideTile(t, d) {
+    return this.props.slideTile(t, d);
   }
   componentDidMount() {
     this.measureTile();
@@ -93,7 +93,7 @@ class Tile extends Component {
   handleClick() {
     this.clearWay(this, 'right');
     this.expand();
-    //this.moveTile(this, 'right');
+    //this.slideTile(this, 'right');
   }
   classNames() {
     let c = ['tile'];
@@ -118,7 +118,7 @@ class Tile extends Component {
   }
   render() {
     return (
-      <div ref='tile' className={this.classNames()} onClick={this.handleClick} style={{ marginTop: this.state.bumpAmt}} > 
+      <div ref='tile' className={this.classNames()} onDoubleClick={this.handleClick} style={{ marginTop: this.state.bumpAmt}} > 
         <div className="tile-container"> 
           <input className="title" type="text" value={this.state.issueData.title}/> 
           <input className="author" type="text" value={this.state.issueData.author}/> 
