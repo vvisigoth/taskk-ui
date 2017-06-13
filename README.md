@@ -9,7 +9,7 @@ This is an attempt to learn React by converting the taskk
 front end from a blob of jquery into something semi-rational(React + Redux).
 
 
-##High Level Todo
+## High Level Todo
 - redux
 - wireup
 - keyshortcuts
