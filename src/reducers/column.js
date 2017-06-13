@@ -1,15 +1,21 @@
 import tile from './tile';
 
-const createIssue = (state = []) => {
-  return [...state, tile(undefined, {type: 'UPDATE_ISSUE'})]
+const createIssue = (state = [], issueObj) => {
+
+
+  return [tile(undefined, {type: '_UPDATE_ISSUE', issueObj: issueObj}), ...state]
 };
 
 const deleteIssue = (state = [], issueId) => {
   //waht about default
-  let index = 0;
+  let index = -1;
   state.forEach((t, i) => { if(issueId == t.issueId) { index = i}});
-  return [...state.slice(0, index), ...state.slice(index + 1)];
-
+  console.log(index);
+  if (index > -1) {
+    return [...state.slice(0, index), ...state.slice(index + 1)];
+  } else{
+    return [...state]
+  }
 };
 
 const retrieveIssue = (state =[], issueId) => {
@@ -28,9 +34,9 @@ export default(state = [], action) => {
   switch (action.type) {
     case 'INSERT_ISSUE':
       return insertIssue(state, action.issueId, action.issueObj)
-    case 'CREATE_ISSUE':
-      return createIssue(state);
-    case 'DELETE_ISSUE':
+    case '_CREATE_ISSUE':
+      return createIssue(state, action.issueObj);
+    case '_DELETE_ISSUE':
       return deleteIssue(state, action.issueId);
     case 'RETRIEVE_ISSUE':
       return retrieveIssue(state, action.issueId);

@@ -14,8 +14,9 @@ export default(state = {
   author:'',
   assignee: ''
 }, action) => {
+
   switch (action.type) {
-    case 'UPDATE_ISSUE':
+    case '_UPDATE_ISSUE':
       return saveIssue(state, action.issueObj);
     default:
       return state;
