@@ -5,11 +5,17 @@ const createIssue = (state = []) => {
 };
 
 const deleteIssue = (state = [], issueId) => {
-  //write this
+  //waht about default
   let index = 0;
   state.forEach((t, i) => { if(issueId == t.issueId) { index = i}});
   return [...state.slice(0, index), ...state.slice(index + 1)];
 
+};
+
+const retrieveIssue = (state =[], issueId) => {
+  let index = 0;
+  state.forEach((t, i) => { if(issueId == t.issueId) { index = i}});
+  return state[index];
 };
 
 const insertIssue = (state = [], issueId, issueObj) => {
@@ -26,9 +32,13 @@ export default(state = [], action) => {
       return createIssue(state);
     case 'DELETE_ISSUE':
       return deleteIssue(state, action.issueId);
+    case 'RETRIEVE_ISSUE':
+      return retrieveIssue(state, action.issueId);
     default:
       return state;
   };
 };
+
+
 
 
