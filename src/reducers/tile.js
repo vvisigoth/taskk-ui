@@ -1,3 +1,12 @@
+// change this to issue
+const saveIssue = (state, issueObj) => {
+  if (typeof(issueObj) === 'undefined') {
+    return state;
+  } else {
+    return Object.assign({}, state, issueObj);
+  }
+};
+
 export default(state = {
   issueId:'',
   title:'',
@@ -6,11 +15,8 @@ export default(state = {
   assignee: ''
 }, action) => {
   switch (action.type) {
-    case 'SAVE_ISSUE':
-      return {
-        ...state, 
-        issue: action.issue
-      };
+    case 'UPDATE_ISSUE':
+      return saveIssue(state, action.issueObj);
     default:
       return state;
   }
