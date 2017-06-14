@@ -11,8 +11,7 @@ class Column extends Component {
     this.renderTiles = this.renderTiles.bind(this);
     this.clearWay = this.clearWay.bind(this);
     this.slideTile = this.slideTile.bind(this);
-    this.state = props.colData;
-    this.state.tileList = [];
+    this.state = {issues: this.props.colData};
     this.insertTile = this.insertTile.bind(this);
     this.removeTile = this.removeTile.bind(this);
   }
@@ -58,7 +57,7 @@ class Column extends Component {
     return (
       <div className="column">
         <div className="headlet">
-          <div className="headlet-container">{this.state.name}</div>
+          <div className="headlet-container">{this.props.name}</div>
           <div className="add-button">+</div>
         </div>
         <div className="col-container">

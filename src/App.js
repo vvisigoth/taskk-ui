@@ -105,7 +105,7 @@ class App extends Component{
 
   findTile(key) {
     var a;
-    this.state.columnList.forEach(c => { c.state.tileList.map( t => { if (t.props.issueData.issue == key) {a = t} })});
+    this.state.columnList.forEach(c => { c.state.tileList.map( t => { if (t.props.issueData.issue === key) {a = t} })});
     return a
   }
 
@@ -177,14 +177,13 @@ class App extends Component{
       tarTiles[0].bump(bumpAmt);
     }
   }
-
   componentDidMount() {
-    console.debug(this.refs);
+    console.debug(this.props);
   }
 
   renderColumns() {
-    return this.state.board.map((c, i) => (
-      <Column key={c.name} col={i} colData={c} slideTile={this.slideTile} clearWay={this.clearWay} ref={c.name}/>
+    return Object.keys(this.props.board).map((k, i) => (
+      <Column key={k} col={i} colData={this.props.board[k]} slideTile={this.slideTile} name={k} clearWay={this.clearWay} ref={k}/>
     ));
   }
 
@@ -198,7 +197,10 @@ class App extends Component{
 
   render() {
     return (
-      <div className="cont" onMouseDown={this.dragStart} onMouseMove={this.dragging} onMouseUp={this.dragEnd}>
+      <div className="cont">
+      {/*
+      <div onClick={() => {console.log('click')}} className="cont" onMouseDown={this.dragStart} onMouseMove={this.dragging} onMouseUp={this.dragEnd}>
+      */}
         {this.renderColumns()}
         {/*
         <div id="ghost-tile" className={ this.state.showGhost ? "show": "hide"} style={this.state.ghostStyle}> 
