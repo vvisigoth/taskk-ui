@@ -23,24 +23,23 @@ class Column extends Component {
     return this.props.slideTile(t, d);
   }
   renderTiles() {
-    return this.state.issues.map(t => (
-      <Tile draggable="true" key={t.issue} id={t.issue} col={this.state.name} clearWay={this.clearWay} slideTile={this.slideTile} issueData={t} ref={t.issue}/>
+    return this.props.colData.map(t => (
+      <Tile draggable="true" key={t.issueId} id={t.issueId} col={this.props.name} clearWay={this.clearWay} slideTile={this.slideTile} issueData={t} ref={t.issueId}/>
     ));
   }
   componentDidUpdate() {
-    console.debug('column updated');
+    console.debug('update');
+    console.debug(this.props.colData);
   }
   //inserts a new tile before a tile with the given id
   //if beforeId undefined, inserts at top
   insertTile(issueObj, beforeId) {
     let insertIndex = 0;
-    console.debug(beforeId);
 
     this.state.issues.forEach((v, i) => {if(beforeId == v.issue) {
       insertIndex = i;
     }})
 
-    console.debug(insertIndex);
 
     let newIssues = [...this.state.issues];
     newIssues.splice(insertIndex, 0, issueObj);

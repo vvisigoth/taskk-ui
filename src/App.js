@@ -14,179 +14,37 @@ const clone = function(obj) {
 const colOrder = ['todo', 'doin', 'show', 'done'];
 
 const destCol = function(sourceCol, dir) {
-  if ((colOrder.indexOf(sourceCol) == 0 && dir == 'left') || (colOrder.indexOf(sourceCol) == 3 && dir == 'right')) {
+  if ((colOrder.indexOf(sourceCol) === 0 && dir === 'left') || (colOrder.indexOf(sourceCol) === 3 && dir === 'right')) {
     return sourceCol;
   }
-  else if (dir == 'right') {
+  else if (dir === 'right') {
     return colOrder[colOrder.indexOf(sourceCol) + 1];
-  } else if (dir == 'left') {
+  } else if (dir === 'left') {
     return colOrder[colOrder.indexOf(sourceCol) - 1];
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    board: state.board
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    createIssue: (phase) => dispatch({
+      type: 'CREATE_ISSUE',
+      phase: phase
+    })
+  }
+};
 
 class App extends Component{
   constructor(props) {
     super(props);
 
-    //window.urb.appl = "taskk";
-
-    //window.urb.bind('/~rosfet-ronlyn-mirdel-sillev--satnes-haphul-habryg-loppeg/anewboard', (e,d) => {
-    //  console.debug(e);
-    //  console.debug(d);
-    //});
-
     this.renderColumns = this.renderColumns.bind(this);
-
-
-    this.state = {
-      board: 
-        [
-          {
-            name: 'todo',
-            issues: 
-              [
-                {
-                  issue: '25',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below\n\n\n\n\n'
-                },
-                {
-                  issue: '32',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, \n\nso below'
-                },
-                {
-                  issue: '39',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so \n\nbelow'
-                },
-                {
-                  issue: '46',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below\n\n\n\n\n\n'
-                }
-              ]
-          },
-          {
-            name: 'doin',
-            issues: 
-              [
-                {
-                  issue: '59',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                },
-                {
-                  issue: '66',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                },
-                {
-                  issue: '73',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                },
-                {
-                  issue: '80',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                }
-              ]
-          },
-          {
-            name: 'show',
-            issues: 
-              [
-                {
-                  issue: '93',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                },
-                {
-                  issue: '100',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                },
-                {
-                  issue: '107',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                },
-                {
-                  issue: '114',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                }
-              ]
-          },
-          {
-            name: 'done',
-            issues: 
-              [
-                {
-                  issue: '127',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                },
-                {
-                  issue: '134',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                },
-                {
-                  issue: '141',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                },
-                {
-                  issue: '148',
-                  title: 'Some Title',
-                  author: '~poldec',
-                  assignee: '~zod',
-                  description: 'As above, so below'
-                }
-              ]
-          }
-        ],
-        ghostIssueData: {
-          issue: '25',
-          title: 'Some Title',
-          author: '~poldec',
-          assignee: '~zod',
-          description: 'As above, so below\n\n\n\n\n'
-        }
-    };
-    this.state.columnList = [];
+    this.state = {};
     this.state.showGhost = false;
     this.findNeighbor = this.findNeighbor.bind(this);
     this.findTile = this.findTile.bind(this);
@@ -202,10 +60,6 @@ class App extends Component{
   }
 
   slideTile(tile, dir) {
-    //calculate destinationCol
-    //insert tile on newCol
-    //remove tile from oldCol
-    //this.state.columnList[0].insertTile(nt);
     let dc = destCol(tile.props.col, dir);
     let tmpIssueObj = clone(tile.state.issueData);
     let destTile = this.findNeighbor(tile, dir);
@@ -270,30 +124,28 @@ class App extends Component{
       height: dim.height
     }
 
-    if (dir == 'left') {
+    if (dir === 'left') {
       dimen.top = dimen.top + 40;
       dimen.bottom = dimen.bottom - 40;
       dimen.left = dimen.left - (dimen.width - 40);
       dimen.right = dimen.right - (dimen.width + 40);
-    } else if (dir == 'right') {
+    } else if (dir === 'right') {
       dimen.top = dimen.top + 40;
       dimen.bottom = dimen.bottom - 40;
       dimen.left = dimen.left + (dimen.width + 40);
       dimen.right = dimen.right + (dimen.width - 40);
-    } else if (dir == 'up') {
+    } else if (dir === 'up') {
       dimen.top = dimen.top - (dimen.height - 40);
       dimen.bottom = dimen.bottom - (dimen.height + 40);
       dimen.left = dimen.left + 40;
       dimen.right = dimen.right - 40;
-    } else if (dir == 'down') {
+    } else if (dir === 'down') {
       dimen.top = dimen.top + (dimen.height + 40);
       dimen.bottom = dimen.bottom + (dimen.height - 40);
       dimen.left = dimen.left + 40;
       dimen.right = dimen.right - 40;
     }
 
-    console.debug('dimen after');
-    console.debug(dimen);
 
     var inter = [];
 
@@ -314,11 +166,9 @@ class App extends Component{
 
   clearWay(tile, dir) {
     if (tile.state.expanded) {
-      console.debug('contract');
 
       this.contractAll(this.unBump);
     } else {
-      console.debug('expand');
       this.contractAll(this.unBump);
       let tarTiles = this.findNeighbor(tile, dir);
 

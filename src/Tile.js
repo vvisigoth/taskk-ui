@@ -30,7 +30,6 @@ class Tile extends Component {
     this.contract = this.contract.bind(this);
   }
   submitChanges() {
-    console.debug("submit");
     return;
   }
 
@@ -56,7 +55,6 @@ class Tile extends Component {
     this.measureTile();
   }
   componentDidUpdate() {
-    console.debug('tile updated');
   }
   activate() {
     if (this.state.active) {
