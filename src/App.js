@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import Column from './Column';
 import './App.css';
 import './Tile.css';
@@ -364,4 +366,7 @@ class App extends Component{
   }
 };
 
-export default App;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
