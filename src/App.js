@@ -146,27 +146,37 @@ class App extends Component{
       dimen.right = dimen.right - 40;
     }
 
-
     var inter = [];
 
-    Object.keys(this.refs).forEach(c => { Object.keys(this.refs[c].refs).map( t => { if (this.intersectRect(dimen, this.refs[c].refs[t].state.dimensions) && eventTile.props.id != this.refs[c].refs[t].props.id) { inter.push(this.refs[c].refs[t])} })});
 
-    return inter;
+    Object.keys(this.refs).forEach(c => { 
+
+      Object.keys(this.refs[c].wrappedInstance.refs).map( t => { 
+        if (
+          this.intersectRect(dimen, this.refs[c].wrappedInstance.refs[t].wrappedInstance.state.dimensions) && 
+          eventTile.props.id != this.refs[c].wrappedInstance.refs[t].wrappedInstance.props.id) { 
+          inter.push(this.refs[c].wrappedInstance.refs[t].wrappedInstance)
+        } 
+      })
+    });
+
+
+    // try not to mutate
+    return [...inter.sort(a => a.state.dimensions.top)]
 
   }
 
   unBump() {
-    Object.keys(this.refs).forEach(c => { Object.keys(this.refs[c].refs).map( t => { this.refs[c].refs[t].unBump() })});
+    Object.keys(this.refs).forEach(c => { Object.keys(this.refs[c].wrappedInstance.refs).map( t => { this.refs[c].wrappedInstance.refs[t].wrappedInstance.unBump() })});
   }
 
   contractAll(cb) {
-    Object.keys(this.refs).forEach(c => { Object.keys(this.refs[c].refs).map( t => { this.refs[c].refs[t].contract() })});
+    Object.keys(this.refs).forEach(c => { Object.keys(this.refs[c].wrappedInstance.refs).map( t => { this.refs[c].wrappedInstance.refs[t].wrappedInstance.contract() })});
     cb();
   }
 
   clearWay(tile, dir) {
     if (tile.state.expanded) {
-
       this.contractAll(this.unBump);
     } else {
       this.contractAll(this.unBump);
@@ -220,5 +230,7 @@ class App extends Component{
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  null,
+  { withRef: true }
 )(App);

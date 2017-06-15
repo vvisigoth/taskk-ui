@@ -1,8 +1,32 @@
 //The Column is the reflection of a phase
 
 import React, {Component} from 'react';
+
+import { connect } from 'react-redux';
 import Tile from './Tile';
 import './Column.css';
+
+import defaultIssue from './utils';
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    phase: state.board[ownProps.name]
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    newIssue: (phase, issueObj) => dispatch({
+      type: 'CREATE_ISSUE',
+      phase,
+      issueObj
+    }),
+    testDispatch: (a) => dispatch({
+      type: 'TEST_ACTION',
+      testString: a
+    })
+  }
+};
 
 class Column extends Component {
   constructor(props) {
@@ -11,9 +35,11 @@ class Column extends Component {
     this.renderTiles = this.renderTiles.bind(this);
     this.clearWay = this.clearWay.bind(this);
     this.slideTile = this.slideTile.bind(this);
-    this.state = {issues: this.props.colData};
-    this.insertTile = this.insertTile.bind(this);
-    this.removeTile = this.removeTile.bind(this);
+    this.state = {};
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    this.props.newIssue(this.props.name, defaultIssue);
   }
   clearWay(dim, dir) {
     return this.props.clearWay(dim, dir);
@@ -22,43 +48,21 @@ class Column extends Component {
     return this.props.slideTile(t, d);
   }
   renderTiles() {
-    return this.props.colData.map(t => (
+    return this.props.phase.map(t => (
       <Tile draggable="true" key={t.issueId} id={t.issueId} col={this.props.name} clearWay={this.clearWay} slideTile={this.slideTile} issueData={t} ref={t.issueId}/>
     ));
   }
+  componentDidMount() {
+    this.props.testDispatch('test string');
+  }
   componentDidUpdate() {
-    console.debug('update');
-    console.debug(this.props.colData);
-  }
-  //inserts a new tile before a tile with the given id
-  //if beforeId undefined, inserts at top
-  insertTile(issueObj, beforeId) {
-    let insertIndex = 0;
-
-    this.state.issues.forEach((v, i) => {if(beforeId == v.issue) {
-      insertIndex = i;
-    }})
-
-
-    let newIssues = [...this.state.issues];
-    newIssues.splice(insertIndex, 0, issueObj);
-    this.setState({ issues: newIssues});
-  }
-  removeTile(tileId) {
-    let removeIndex = 0;
-    this.state.issues.forEach((v, i) => {if(tileId == v.issue) {
-      removeIndex = i;
-    }})
-    let newIssues = [...this.state.issues];
-    newIssues.splice(removeIndex, 1);
-    this.setState({ issues: newIssues});
   }
   render() {
     return (
       <div className="column">
         <div className="headlet">
           <div className="headlet-container">{this.props.name}</div>
-          <div className="add-button">+</div>
+          <div className="add-button" onClick={this.handleClick} >+</div>
         </div>
         <div className="col-container">
           {this.renderTiles()}
@@ -68,4 +72,10 @@ class Column extends Component {
   }
 };
 
-export default Column
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  null,
+  { withRef: true}
+)(Column);
+

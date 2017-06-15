@@ -1,13 +1,36 @@
 //The Tile is the basic reflection of the Issue
 
 import React, {Component} from 'react';
-//import Measure from 'react-measure';
+import { connect } from 'react-redux';
+
 import './Tile.css';
+
+const mapStateToProps = (state, ownProps) => {
+  let is;
+  state.board[ownProps.col].forEach(function(v) {
+    if (v.issueId == ownProps.id) {
+      is = v;
+    };
+  });
+  return {
+    issue: is
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateIssue: (issueId, issueObj) => dispatch({
+      type: 'UPDATE_ISSUE',
+      issueObj,
+      issueId
+    })
+  }
+};
 
 class Tile extends Component {
   constructor(props) {
     super(props);
-    this.state = {issueData: props.issueData};
+    this.state = {issueData: props.issue };
     this.state.expanded = false;
     this.state.active = false;
     this.state.bumpAmt = 0;
@@ -28,10 +51,21 @@ class Tile extends Component {
     this.bump = this.bump.bind(this);
     this.unBump = this.unBump.bind(this);
     this.contract = this.contract.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   submitChanges() {
-    return;
+    this.props.updateIssue(this.props.id, this.state.issueData);
   }
+
+  handleChange() {
+    let tmpIssueObj = {
+      title: this.refs.title.value,
+      author: this.refs.author.value,
+      assignee: this.refs.assignee.value,
+      description: this.refs.description.value,
+    }
+    this.setState({issueData: tmpIssueObj});
+  };
 
   unBump() {
     this.setState({bumpAmt: 0});
@@ -88,14 +122,15 @@ class Tile extends Component {
             height: rect.height
           };
   }
-  handleClick() {
+  handleClick(e) {
+    e.preventDefault();
     this.clearWay(this, 'right');
     this.expand();
     //this.slideTile(this, 'right');
   }
   classNames() {
     let c = ['tile'];
-    const count = (this.state.issueData.description.match(/[\r\n]/g) || []).length;
+    const count = (this.props.issue.description.match(/[\r\n]/g) || []).length;
 
     // class based 
     if (this.state.expanded) {
@@ -118,16 +153,23 @@ class Tile extends Component {
     return (
       <div ref='tile' className={this.classNames()} onDoubleClick={this.handleClick} style={{ marginTop: this.state.bumpAmt}} > 
         <div className="tile-container"> 
-          <input className="title" type="text" value={this.state.issueData.title}/> 
-          <input className="author" type="text" value={this.state.issueData.author}/> 
+          <input className="title" type="text" ref="title" value={this.props.issue.title}/> 
+          <input className="author" type="text" ref="author" value={this.props.issue.author}/> 
         </div> 
         <div className="indicator"></div> 
-        <textarea className="description" value={this.state.issueData.description}></textarea> 
-        <input className="assignee" type="text" value={this.state.issueData.assignee}/> 
+        <textarea className="description" ref="description" onChange={this.handleChange} defaultValue={this.props.issue.description}></textarea> 
+        <input className="assignee" type="text" ref="assignee" value={this.props.issue.assignee}/> 
         <input className="submit" type="submit" onClick={this.submitChanges}/> 
       </div>
     );
   }       
 };
 
-export default Tile
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  null,
+  {
+    withRef: true
+  }
+)(Tile);
