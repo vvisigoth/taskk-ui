@@ -10,7 +10,6 @@ const deleteIssue = (state = [], issueId) => {
   //waht about default
   let index = -1;
   state.forEach((t, i) => { if(issueId == t.issueId) { index = i}});
-  console.log(index);
   if (index > -1) {
     return [...state.slice(0, index), ...state.slice(index + 1)];
   } else{
