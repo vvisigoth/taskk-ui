@@ -124,22 +124,22 @@ class App extends Component{
       height: dim.height
     }
 
-    if (dir === 'left') {
+    if (dir == 'left') {
       dimen.top = dimen.top + 40;
       dimen.bottom = dimen.bottom - 40;
       dimen.left = dimen.left - (dimen.width - 40);
       dimen.right = dimen.right - (dimen.width + 40);
-    } else if (dir === 'right') {
+    } else if (dir == 'right') {
       dimen.top = dimen.top + 40;
       dimen.bottom = dimen.bottom - 40;
       dimen.left = dimen.left + (dimen.width + 40);
       dimen.right = dimen.right + (dimen.width - 40);
-    } else if (dir === 'up') {
+    } else if (dir == 'up') {
       dimen.top = dimen.top - (dimen.height - 40);
       dimen.bottom = dimen.bottom - (dimen.height + 40);
       dimen.left = dimen.left + 40;
       dimen.right = dimen.right - 40;
-    } else if (dir === 'down') {
+    } else if (dir == 'down') {
       dimen.top = dimen.top + (dimen.height + 40);
       dimen.bottom = dimen.bottom + (dimen.height - 40);
       dimen.left = dimen.left + 40;
@@ -188,7 +188,8 @@ class App extends Component{
     }
   }
   componentDidMount() {
-    console.debug(this.props);
+  }
+  componentDidUpdate() {
   }
 
   renderColumns() {
@@ -209,7 +210,6 @@ class App extends Component{
     return (
       <div className="cont">
       {/*
-      <div onClick={() => {console.log('click')}} className="cont" onMouseDown={this.dragStart} onMouseMove={this.dragging} onMouseUp={this.dragEnd}>
       */}
         {this.renderColumns()}
         {/*
