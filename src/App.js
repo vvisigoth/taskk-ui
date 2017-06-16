@@ -176,6 +176,10 @@ class App extends Component{
   }
 
   clearWay(tile, dir) {
+    if (typeof(tile) === 'undefined') {
+      this.contractAll(this.unBump);
+      return;
+    }
     if (tile.state.expanded) {
       this.contractAll(this.unBump);
     } else {

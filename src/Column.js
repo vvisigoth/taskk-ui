@@ -77,7 +77,7 @@ class Column extends Component {
           <div className="headlet-container">{this.props.name}</div>
           <div className="add-button" onClick={this.handleClick} >+</div>
         </div>
-        <div className="col-container">
+        <div className="col-container" >
           {this.renderTiles()}
         </div>
       </div>

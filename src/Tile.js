@@ -23,6 +23,17 @@ const mapDispatchToProps = dispatch => {
       type: 'UPDATE_ISSUE',
       issueObj,
       issueId
+    }),
+    moveTile: (sourcePhase, sourceId, targetPhase, targetId) => dispatch({
+      type: 'MOVE_ISSUE',
+      sourcePhase,
+      sourceId,
+      targetPhase,
+      targetId
+    }),
+    deleteIssue: (issueId) => dispatch({
+      type: 'DELETE_ISSUE',
+      issueId
     })
   }
 };
@@ -52,9 +63,36 @@ class Tile extends Component {
     this.unBump = this.unBump.bind(this);
     this.contract = this.contract.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleDragStart = this.handleDragStart.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
+    this.handleDragOver = this.handleDragOver.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   submitChanges() {
     this.props.updateIssue(this.props.id, this.state.issueData);
+  }
+
+  handleDelete(e) {
+    console.debug('handle delete');
+    this.clearWay();
+    this.props.deleteIssue(this.props.id);
+  }
+
+  handleDragOver(e) {
+    e.preventDefault();
+    // put some sort of indicator here
+  };
+
+  handleDrag(e) {
+  };
+
+  handleDrop(e) {
+    e.preventDefault();
+    let st = e.nativeEvent.dataTransfer.getData('text');
+    let stParsed = st.split('|');
+    const phase = stParsed[0];
+    const id = stParsed[1];
+    this.props.moveTile(phase, id, this.props.col, this.props.id);
   }
 
   handleChange() {
@@ -66,6 +104,17 @@ class Tile extends Component {
     }
     this.setState({issueData: tmpIssueObj});
   };
+
+  handleDragStart(e) {
+    e.nativeEvent.dataTransfer.setData('text', this.props.col + '|' + this.props.id);
+  };
+
+  handleClick(e) {
+    e.preventDefault();
+    this.clearWay(this, 'right');
+    this.expand();
+    //this.slideTile(this, 'right');
+  }
 
   unBump() {
     this.setState({bumpAmt: 0});
@@ -122,12 +171,6 @@ class Tile extends Component {
             height: rect.height
           };
   }
-  handleClick(e) {
-    e.preventDefault();
-    //this.clearWay(this, 'right');
-    //this.expand();
-    this.slideTile(this, 'right');
-  }
   classNames() {
     let c = ['tile'];
     const count = (this.props.issue.description.match(/[\r\n]/g) || []).length;
@@ -149,9 +192,11 @@ class Tile extends Component {
     }
     return c.join(' ');
   }
+
+
   render() {
     return (
-      <div ref='tile' className={this.classNames()} onDoubleClick={this.handleClick} style={{ marginTop: this.state.bumpAmt}} > 
+      <div ref='tile' className={this.classNames()} onDoubleClick={this.handleClick} draggable="true" onDragStart={this.handleDragStart} onDragOver={this.handleDragOver} onDrop={this.handleDrop} style={{ marginTop: this.state.bumpAmt}} > 
         <div className="tile-container"> 
           <input className="title" type="text" ref="title" value={this.props.issue.title}/> 
           <input className="author" type="text" ref="author" value={this.props.issue.author}/> 
@@ -159,6 +204,7 @@ class Tile extends Component {
         <div className="indicator"></div> 
         <textarea className="description" ref="description" onChange={this.handleChange} defaultValue={this.props.issue.description}></textarea> 
         <input className="assignee" type="text" ref="assignee" value={this.props.issue.assignee}/> 
+        <span className="delete" onClick={this.handleDelete}>X</span>
         <input className="submit" type="submit" onClick={this.submitChanges}/> 
       </div>
     );
