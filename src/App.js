@@ -5,6 +5,10 @@ import Column from './Column';
 import './App.css';
 import './Tile.css';
 
+//import moveTile from './actions/board';
+
+//import intersectRect from './utils';
+
 const clone = function(obj) {
   let newObj = {};
   Object.keys(obj).forEach(k => { newObj[k] = obj[k] });
@@ -55,34 +59,30 @@ class App extends Component{
     this.state.showGhost = false;
     this.findNeighbor = this.findNeighbor.bind(this);
     this.findTile = this.findTile.bind(this);
-    this.intersectRect = this.intersectRect.bind(this);
     this.clearWay = this.clearWay.bind(this);
     this.unBump = this.unBump.bind(this);
     this.contractAll = this.contractAll.bind(this);
     this.slideTile = this.slideTile.bind(this);
     this.dragStart = this.dragStart.bind(this);
     this.dragEnd = this.dragEnd.bind(this);
-    this.ptToTile = this.ptToTile.bind(this);
     this.dragging = this.dragging.bind(this);
+    this.intersectRect = this.intersectRect.bind(this);
   }
 
   slideTile(tile, dir) {
     let dc = destCol(tile.props.col, dir);
     let tmpIssueObj = clone(tile.state.issueData);
     let destTile = this.findNeighbor(tile, dir);
-    ///this.refs[tile.props.col].removeTile(tile.props.id);
-    ///this.refs[dc].insertTile(tmpIssueObj, destTile[0].props.id);
     this.props.moveTile(tile.props.col, tile.props.id, dc, destTile[0].props.id);
   }
 
-  ptToTile(x, y) {
-    var inter = [];
-    var dimen = {top: y, bottom: y, left: x, right: x};
-
-    Object.keys(this.refs).forEach(c => { Object.keys(this.refs[c].refs).map( t => { if (this.intersectRect(dimen, this.refs[c].refs[t].state.dimensions)) { inter.push(this.refs[c].refs[t])} })});
-
-    return inter[0];
+  intersectRect(r1, r2) {
+    return !(r2.left > r1.right || 
+      r2.right < r1.left || 
+      r2.top > r1.bottom ||
+      r2.bottom < r1.top);
   }
+
 
   dragStart(e) {
     e.preventDefault();
@@ -101,13 +101,6 @@ class App extends Component{
 
   dragging(e) {
     this.setState({ ghostStyle: { top: e.clientY + 'px', left: e.clientX + 'px'}});
-  }
-
-  intersectRect(r1, r2) {
-    return !(r2.left > r1.right || 
-      r2.right < r1.left || 
-      r2.top > r1.bottom ||
-      r2.bottom < r1.top);
   }
 
   findTile(key) {
