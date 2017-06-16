@@ -124,9 +124,9 @@ class Tile extends Component {
   }
   handleClick(e) {
     e.preventDefault();
-    this.clearWay(this, 'right');
-    this.expand();
-    //this.slideTile(this, 'right');
+    //this.clearWay(this, 'right');
+    //this.expand();
+    this.slideTile(this, 'right');
   }
   classNames() {
     let c = ['tile'];

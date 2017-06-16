@@ -35,6 +35,13 @@ const mapDispatchToProps = dispatch => {
     createIssue: (phase) => dispatch({
       type: 'CREATE_ISSUE',
       phase: phase
+    }),
+    moveTile: (sourcePhase, sourceId, targetPhase, targetId) => dispatch({
+      type: 'MOVE_ISSUE',
+      sourcePhase,
+      sourceId,
+      targetPhase,
+      targetId
     })
   }
 };
@@ -63,9 +70,9 @@ class App extends Component{
     let dc = destCol(tile.props.col, dir);
     let tmpIssueObj = clone(tile.state.issueData);
     let destTile = this.findNeighbor(tile, dir);
-
-    this.refs[tile.props.col].removeTile(tile.props.id);
-    this.refs[dc].insertTile(tmpIssueObj, destTile[0].props.id);
+    ///this.refs[tile.props.col].removeTile(tile.props.id);
+    ///this.refs[dc].insertTile(tmpIssueObj, destTile[0].props.id);
+    this.props.moveTile(tile.props.col, tile.props.id, dc, destTile[0].props.id);
   }
 
   ptToTile(x, y) {
