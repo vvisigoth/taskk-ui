@@ -5,6 +5,9 @@ import Column from './Column';
 import './App.css';
 import './Tile.css';
 
+import { moveIssue } from './actions/actions';
+
+
 //import moveTile from './actions/board';
 
 //import intersectRect from './utils';
@@ -56,7 +59,6 @@ class App extends Component{
 
     this.renderColumns = this.renderColumns.bind(this);
     this.state = {};
-    this.state.showGhost = false;
     this.findNeighbor = this.findNeighbor.bind(this);
     this.findTile = this.findTile.bind(this);
     this.clearWay = this.clearWay.bind(this);
@@ -83,7 +85,6 @@ class App extends Component{
       r2.bottom < r1.top);
   }
 
-
   dragStart(e) {
     e.preventDefault();
     let t = this.ptToTile(e.clientX, e.clientY);
@@ -99,13 +100,9 @@ class App extends Component{
     this.setState({showGhost: false});
   }
 
-  dragging(e) {
-    this.setState({ ghostStyle: { top: e.clientY + 'px', left: e.clientX + 'px'}});
-  }
-
   findTile(key) {
     var a;
-    this.state.columnList.forEach(c => { c.state.tileList.map( t => { if (t.props.issueData.issue === key) {a = t} })});
+    this.state.columnList.forEach(c => { c.state.tileList.map(t => { if (t.props.issueData.issue === key) {a = t} })});
     return a
   }
 
@@ -124,22 +121,22 @@ class App extends Component{
       height: dim.height
     }
 
-    if (dir == 'left') {
+    if (dir === 'left') {
       dimen.top = dimen.top + 40;
       dimen.bottom = dimen.bottom - 40;
       dimen.left = dimen.left - (dimen.width - 40);
       dimen.right = dimen.right - (dimen.width + 40);
-    } else if (dir == 'right') {
+    } else if (dir === 'right') {
       dimen.top = dimen.top + 40;
       dimen.bottom = dimen.bottom - 40;
       dimen.left = dimen.left + (dimen.width + 40);
       dimen.right = dimen.right + (dimen.width - 40);
-    } else if (dir == 'up') {
+    } else if (dir === 'up') {
       dimen.top = dimen.top - (dimen.height - 40);
       dimen.bottom = dimen.bottom - (dimen.height + 40);
       dimen.left = dimen.left + 40;
       dimen.right = dimen.right - 40;
-    } else if (dir == 'down') {
+    } else if (dir === 'down') {
       dimen.top = dimen.top + (dimen.height + 40);
       dimen.bottom = dimen.bottom + (dimen.height - 40);
       dimen.left = dimen.left + 40;
@@ -154,15 +151,14 @@ class App extends Component{
       Object.keys(this.refs[c].wrappedInstance.refs).map( t => { 
         if (
           this.intersectRect(dimen, this.refs[c].wrappedInstance.refs[t].wrappedInstance.state.dimensions) && 
-          eventTile.props.id != this.refs[c].wrappedInstance.refs[t].wrappedInstance.props.id) { 
+          eventTile.props.id !== this.refs[c].wrappedInstance.refs[t].wrappedInstance.props.id) { 
           inter.push(this.refs[c].wrappedInstance.refs[t].wrappedInstance)
         } 
       })
     });
 
-
     // try not to mutate
-    return [...inter.sort(a => a.state.dimensions.top)]
+    return [...inter.sort((a, b) => {return a.state.dimensions.top - b.state.dimensions.top})]
 
   }
 
@@ -188,12 +184,9 @@ class App extends Component{
 
       let diff = tile.state.dimensions.top - tarTiles[0].state.dimensions.top;
       let bumpAmt = diff > 0 ? 630 + diff : 630;
+      console.debug(tarTiles.map(x=>{return x.props.id}));
       tarTiles[0].bump(bumpAmt);
     }
-  }
-  componentDidMount() {
-  }
-  componentDidUpdate() {
   }
 
   renderColumns() {
@@ -202,31 +195,10 @@ class App extends Component{
     ));
   }
 
-  requestBoard(h, b) {
-    window.urb.send({
-        action: 'request-board',
-        host: '~rosfet-ronlyn-mirdel-sillev--satnes-haphul-habryg-loppeg',
-        board: 'anewboard'
-    });
-  }
-
   render() {
     return (
       <div className="cont">
-      {/*
-      */}
         {this.renderColumns()}
-        {/*
-        <div id="ghost-tile" className={ this.state.showGhost ? "show": "hide"} style={this.state.ghostStyle}> 
-          <div className="tile-container"> 
-            <input className="title" type="text" value={this.state.ghostIssueData.title}/> 
-            <input className="author" type="text" value={this.state.ghostIssueData.author}/> 
-          </div> 
-          <div className="indicator"></div> 
-          <textarea className="description" value={this.state.ghostIssueData.description}></textarea> 
-          <input className="assignee" type="text" value={this.state.ghostIssueData.assignee}/> 
-        </div>
-        */}
       </div>
     )
   }

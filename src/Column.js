@@ -5,10 +5,12 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Tile from './Tile';
 import './Column.css';
+import { createIssue } from './actions/actions';
 
 import defaultIssue from './utils';
 
 const mapStateToProps = (state, ownProps) => {
+
   return {
     phase: state.board[ownProps.name]
   }
@@ -37,22 +39,9 @@ class Column extends Component {
     this.slideTile = this.slideTile.bind(this);
     this.state = {};
     this.handleClick = this.handleClick.bind(this);
-    this.ptToTile = this.ptToTile.bind(this);
   }
   handleClick() {
-    this.props.newIssue(this.props.name, defaultIssue);
-  }
-  ptToTile(x, y) {
-    var inter = [];
-    var dimen = {top: y, bottom: y, left: x, right: x};
-
-    //console.debug(x);
-    //console.debug(y);
-
-
-    //Object.keys(this.refs).forEach(k => { if (intersectRect(dimen, this.refs[k].wrappedInstance.state.dimensions)) { inter.push(this.refs[k].wrappedInstance)} });
-
-    return inter;
+    this.props.createIssue(this.props.name, defaultIssue);
   }
   clearWay(dim, dir) {
     return this.props.clearWay(dim, dir);
@@ -64,11 +53,6 @@ class Column extends Component {
     return this.props.phase.map(t => (
       <Tile draggable="true" key={t.issueId} id={t.issueId} col={this.props.name} clearWay={this.clearWay} slideTile={this.slideTile} issueData={t} ref={t.issueId}/>
     ));
-  }
-  componentDidMount() {
-    this.props.testDispatch('test string');
-  }
-  componentDidUpdate() {
   }
   render() {
     return (

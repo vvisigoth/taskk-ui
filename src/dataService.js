@@ -8,6 +8,7 @@ const dataService = store => next => action => {
       window.urb.bind('/~rosfet-ronlyn-mirdel-sillev--satnes-haphul-habryg-loppeg/awholenewboard', (e, r) => {
         console.debug(r);
       });
+      break
     case 'POST_CREATE_ISSUE_DATA':
       // calls to gall
       break
@@ -27,6 +28,7 @@ const dataService = store => next => action => {
             data
           })
         })
+      break
     default:
       break
   }

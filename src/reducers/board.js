@@ -1,12 +1,6 @@
 import column from './column';
 import tile from './tile';
 
-const findIssue = (phase, id) =>{
-  let index = -1;
-  phase.forEach((t, i) => { if(id == t.issueId) { index = i}});
-  return index;
-};
-
 //this default is probably wrong
 const moveIssue = (state = {}, sourcePhase, sourceId, targetPhase, targetId) => {
   let p1 = [...state[sourcePhase]];
@@ -30,12 +24,6 @@ const createIssue = (state = {}, phase, issueObj) => {
   return Object.assign({}, state, tmpBoardFrag);
 };
 
-const createPhase = (state = {}, phase) => {
-  let tmpBoardFrag = {};
-  tmpBoardFrag[phase] = [];
-  return Object.assign({}, state, tmpBoardFrag);
-};
-
 const deleteIssue = (state = {}, issueId) => {
   let tmpBoardFrag = {};
   Object.keys(state).forEach(k => { tmpBoardFrag[k] = column(state[k], {type: '_DELETE_ISSUE', issueId: issueId})});
@@ -48,7 +36,7 @@ const updateIssue = (state = {}, issueId, issueObj) => {
       k => {
         tmpBoardFrag[k] =
         state[k].map(j => {
-          if (j.issueId == issueId) {
+          if (j.issueId === issueId) {
             return tile(j, {type: '_UPDATE_ISSUE', issueObj: issueObj});
           } else {
             return j
@@ -59,26 +47,24 @@ const updateIssue = (state = {}, issueId, issueObj) => {
 };
 
 export default(state = {}, action) => {
-  console.debug(action);
 
   switch (action.type) {
     case 'TEST_ACTION':
-      console.debug(action.testString);
       return state;
     case 'CREATE_ISSUE': 
       return createIssue(state, action.phase, action.issueObj);
     case 'UPDATE_ISSUE':
-      console.debug('update issue');
       return updateIssue(state, action.issueId, action.issueObj);
     case 'DELETE_ISSUE':
       return deleteIssue(state, action.issueId);
     case 'MOVE_ISSUE':
       return moveIssue(state, action.sourcePhase, action.sourceId, action.targetPhase, action.targetId);
+    case 'GET_BOARD_DATA_RECEIVED':
+      return action.data.board;
     default:
-      console.debug('unknown action');
 
       return state;
-  };
+  }
 };
 
 

@@ -3,12 +3,14 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
+import { moveIssue, updateIssue, deleteIssue } from './actions/actions';
+
 import './Tile.css';
 
 const mapStateToProps = (state, ownProps) => {
   let is;
   state.board[ownProps.col].forEach(function(v) {
-    if (v.issueId == ownProps.id) {
+    if (v.issueId === ownProps.id) {
       is = v;
     };
   });
@@ -19,22 +21,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateIssue: (issueId, issueObj) => dispatch({
-      type: 'UPDATE_ISSUE',
-      issueObj,
-      issueId
-    }),
-    moveTile: (sourcePhase, sourceId, targetPhase, targetId) => dispatch({
-      type: 'MOVE_ISSUE',
-      sourcePhase,
-      sourceId,
-      targetPhase,
-      targetId
-    }),
-    deleteIssue: (issueId) => dispatch({
-      type: 'DELETE_ISSUE',
-      issueId
-    })
+    updateIssue: (issueId, issueObj) => dispatch(updateIssue(issueId, issueObj)),
+    moveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(moveIssue(sourcePhase, sourceId, targetPhase, targetId)),
+    deleteIssue: (issueId) => dispatch(deleteIssue(issueId))
   }
 };
 
@@ -42,15 +31,12 @@ class Tile extends Component {
   constructor(props) {
     super(props);
     this.state = {issueData: props.issue };
-    this.state.expanded = false;
-    this.state.active = false;
-    this.state.bumpAmt = 0;
-    this.state.ogMarg = 0;
-    this.state.bumped = false;
-    this.state.dimensions = {
-      width: -1,
-      height: -1,
-    };
+    this.setState({ expanded: false});
+    this.setState({ active: false});
+    this.setState({ bumpAmt: 0});
+    this.setState({ ogMarg: 0});
+    this.setState({ bumped: false});
+    this.setState({ dimensions: { width: -1, height: -1 }});
     this.submitChanges = this.submitChanges.bind(this);
     this.classNames = this.classNames.bind(this);
     this.expand = this.expand.bind(this);
