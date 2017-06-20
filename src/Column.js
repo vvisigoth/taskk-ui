@@ -18,15 +18,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    newIssue: (phase, issueObj) => dispatch({
-      type: 'CREATE_ISSUE',
-      phase,
-      issueObj
-    }),
-    testDispatch: (a) => dispatch({
-      type: 'TEST_ACTION',
-      testString: a
-    })
+    createIssue: (phase, issueObj) => dispatch(createIssue(phase, issueObj))
   }
 };
 

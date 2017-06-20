@@ -39,17 +39,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createIssue: (phase) => dispatch({
-      type: 'CREATE_ISSUE',
-      phase: phase
-    }),
-    moveTile: (sourcePhase, sourceId, targetPhase, targetId) => dispatch({
-      type: 'MOVE_ISSUE',
-      sourcePhase,
-      sourceId,
-      targetPhase,
-      targetId
-    })
+    moveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(moveIssue(sourcePhase, sourceId, targetPhase, targetId))
   }
 };
 
@@ -67,15 +57,14 @@ class App extends Component{
     this.slideTile = this.slideTile.bind(this);
     this.dragStart = this.dragStart.bind(this);
     this.dragEnd = this.dragEnd.bind(this);
-    this.dragging = this.dragging.bind(this);
     this.intersectRect = this.intersectRect.bind(this);
   }
 
   slideTile(tile, dir) {
     let dc = destCol(tile.props.col, dir);
-    let tmpIssueObj = clone(tile.state.issueData);
+    //let tmpIssueObj = clone(tile.state.issueData);
     let destTile = this.findNeighbor(tile, dir);
-    this.props.moveTile(tile.props.col, tile.props.id, dc, destTile[0].props.id);
+    this.props.moveIssue(tile.props.col, tile.props.id, dc, destTile[0].props.id);
   }
 
   intersectRect(r1, r2) {

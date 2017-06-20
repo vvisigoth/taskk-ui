@@ -78,7 +78,7 @@ class Tile extends Component {
     let stParsed = st.split('|');
     const phase = stParsed[0];
     const id = stParsed[1];
-    this.props.moveTile(phase, id, this.props.col, this.props.id);
+    this.props.moveIssue(phase, id, this.props.col, this.props.id);
   }
 
   handleChange() {
