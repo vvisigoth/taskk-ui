@@ -43,6 +43,24 @@ div.tile .submit
   display: none;
 }
 
+div.tile .delete
+{
+  display: none;
+  color: darkgrey;
+}
+
+div.tile.expanded .delete
+{
+  display: inherit;
+}
+
+div.tile.expanded .delete:hover
+{
+  color: black;
+}
+
+
+
 div.tile.expanded .submit
 {
   display: inherit; 
@@ -94,7 +112,7 @@ div.col-container .tile:last-child
   border-bottom: black 10px solid;
 }
 
-div#col3 div.tile
+div.column:last-child div.tile
 {
   width: calc(100% - 15px);
 }
@@ -131,8 +149,9 @@ div.tile input.title
 div.tile .description
 {
   font-family: scp;
-  width: calc(100% - 10px);
-  height: calc(100% - 60px);
+  /* these are different than jquery v, why? */
+  width: calc(100% - 30px);
+  height: calc(100% - 80px);
   padding: 10px;
   background-color: whitesmoke;
   /* white-space: pre; */

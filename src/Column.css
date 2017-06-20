@@ -12,6 +12,7 @@ div.headlet
   padding-top: 10px;
   transition: height 100ms;
   height: 2em;
+  text-transform: uppercase;
 }
 
 div.headlet:hover {
@@ -26,7 +27,7 @@ div.headlet:hover .add-button
 div.headlet .add-button
 {
   display: none;
-  font-size: 2em;
+  font-size: 1.2em;
   cursor: pointer;
 }
 
