@@ -10,8 +10,7 @@ front end from a blob of jquery into something semi-rational(React + Redux).
 
 
 ## High Level Todo
-- redux
 - wireup
+- css
 - keyshortcuts
-- callback remove and insert
-- ghost drag
+- rename clearway
