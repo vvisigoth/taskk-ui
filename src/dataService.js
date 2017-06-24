@@ -1,12 +1,31 @@
-import request from 'superagent';
+import { massageBoard } from './utils';
+
+const listener = (e, r, s) => {
+  console.debug(r);
+  if (r.data.connected == 'success') {
+    s.dispatch({type: 'SUBSCRIBE_APP'});
+  }
+  if (r.data.length) {
+    //console.debug(massageBoard(r.data));
+    s.dispatch({
+      type: 'GET_BOARD_DATA_RECEIVED',
+      data: massageBoard(r.data)
+    });
+  }
+};
 
 const dataService = store => next => action => {
-  next(action)
+  next(action);
   switch (action.type) {
-    case 'SUBSCRIBE':
-      window.urb.appl = "taskk";
-      window.urb.bind('/~rosfet-ronlyn-mirdel-sillev--satnes-haphul-habryg-loppeg/awholenewboard', (e, r) => {
-        console.debug(r);
+    case 'POST_SUBSCRIBE':
+      let h = store.getState().urb.host;
+      let b = store.getState().urb.board;
+      // Seems like there could be some async probs here?
+      window.urb.init(function() {
+        window.urb.appl = "taskk";
+        window.urb.bind('/' + h + '/' + b, function(e, r) {
+          listener(e, r, store);
+        })
       });
       break
     case 'POST_CREATE_ISSUE_DATA':
@@ -19,15 +38,11 @@ const dataService = store => next => action => {
       // calls to gall
       break
     case 'GET_BOARD_DATA':
-      request
-        .get('./dummyBoard.json')
-        .end((err, res) => {
-          const data = JSON.parse(res.text);
-          next({
-            type: 'GET_BOARD_DATA_RECEIVED',
-            data
-          })
-        })
+      window.urb.send({
+        action: 'request-board',
+        host: store.getState().urb.host,
+        board: store.getState().urb.board
+      });
       break
     default:
       break

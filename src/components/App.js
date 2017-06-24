@@ -5,7 +5,7 @@ import Column from './Column';
 import './App.css';
 import './Tile.css';
 
-import { moveIssue } from '../actions/actions';
+import { moveIssue, setBoard } from '../actions/actions';
 
 
 //import moveTile from './actions/board';
@@ -33,19 +33,33 @@ const destCol = function(sourceCol, dir) {
 
 const mapStateToProps = state => {
   return {
-    board: state.board
+    board: state.board,
+    urb: state.urb
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    moveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(moveIssue(sourcePhase, sourceId, targetPhase, targetId))
+    moveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(moveIssue(sourcePhase, sourceId, targetPhase, targetId)),
+    getBoard: () => {dispatch({type: 'GET_BOARD_DATA'})},
+    setBoard: (host, board) => {dispatch(setBoard(host, board))}
   }
 };
 
 class App extends Component{
   constructor(props) {
     super(props);
+
+    //this.props.setBoard(
+    //
+    console.debug(this.props);
+
+    let params = this.props.match.params;
+
+    this.props.setBoard(params.host, params.board);
+
+    // TODO: See if component is mounted and get board?
+    //props.getBoard()
 
     this.renderColumns = this.renderColumns.bind(this);
     this.state = {};
@@ -93,6 +107,23 @@ class App extends Component{
     var a;
     this.state.columnList.forEach(c => { c.state.tileList.map(t => { if (t.props.issueData.issue === key) {a = t} })});
     return a
+  }
+
+  componentWillReceiveProps() {
+    console.debug(new Date().getTime());
+    console.debug(this.props);
+  }
+
+  //componentDidMount() {
+  //  console.debug(this.props);
+  //  if (this.props.urb.subscribed) {
+  //    this.props.getBoard();
+  //  }
+  //}
+  //
+  componentWillUpdate() {
+    console.debug(new Date().getTime());
+    console.debug(this.props);
   }
 
   findNeighbor(eventTile, dir) {
@@ -185,6 +216,7 @@ class App extends Component{
   }
 
   render() {
+    console.debug('render');
     return (
       <div className="cont">
         {this.renderColumns()}
