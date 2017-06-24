@@ -30,13 +30,14 @@ const mapDispatchToProps = dispatch => {
 class Tile extends Component {
   constructor(props) {
     super(props);
-    this.state = {issueData: props.issue };
-    this.setState({ expanded: false});
-    this.setState({ active: false});
-    this.setState({ bumpAmt: 0});
-    this.setState({ ogMarg: 0});
-    this.setState({ bumped: false});
-    this.setState({ dimensions: { width: -1, height: -1 }});
+    this.state = {};
+    this.state.issueData = props.issue;
+    this.state.expanded = false;
+    this.state.active = false;
+    this.state.bumpAmt = 0;
+    this.state.ogMarg = 0;
+    this.state.bumped = false;
+    this.state.dimensions = { width: -1, height: -1 };
     this.submitChanges = this.submitChanges.bind(this);
     this.classNames = this.classNames.bind(this);
     this.expand = this.expand.bind(this);
