@@ -14,3 +14,6 @@ front end from a blob of jquery into something semi-rational(React + Redux).
 - css
 - keyshortcuts
 - rename clearway
+- Subscriptions
+
+## Low-Level Todo

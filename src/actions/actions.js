@@ -4,6 +4,12 @@ export const createIssue = (phase, issueObj) => ({
   issueObj
 });
 
+export const setBoard = (host, board) => ({
+  type: 'SET_BOARD',
+  host,
+  board
+});
+
 export const deleteIssue = (issueId) => ({
   type: 'DELETE_ISSUE',
   issueId
