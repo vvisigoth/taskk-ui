@@ -7,7 +7,7 @@ import Tile from './Tile';
 import './Column.css';
 import { createIssue } from '../actions/actions';
 
-import defaultIssue from '../utils';
+import { defaultIssue } from '../utils';
 
 const mapStateToProps = (state, ownProps) => {
 
