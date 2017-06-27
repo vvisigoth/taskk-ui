@@ -61,7 +61,7 @@ class Column extends Component {
   renderTiles() {
     if (this.props.phase) 
     { return this.props.phase.map(t => (
-      <Tile draggable="true" key={t.issueId} id={t.issueId} col={this.props.name} clearWay={this.clearWay} slideTile={this.slideTile} issueData={t} ref={t.issueId}/>
+      <Tile test draggable="true" key={t.issueId} id={t.issueId} col={this.props.name} lastCol={this.props.last} clearWay={this.clearWay} slideTile={this.slideTile} issueData={t} ref={t.issueId}/>
     ));
     } else {
       return (<div></div>)

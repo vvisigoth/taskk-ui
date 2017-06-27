@@ -215,7 +215,7 @@ class App extends Component{
 
   renderColumns() {
     return colOrder.map((k, i) => (
-      <Column key={k} col={i} colData={this.props.board[k]} slideTile={this.slideTile} name={k} clearWay={this.clearWay} ref={k}/>
+      <Column key={k} col={i} colData={this.props.board[k]} slideTile={this.slideTile} last={i == colOrder.length - 1 ? true : false } name={k} clearWay={this.clearWay} ref={k}/>
     ));
   }
 
