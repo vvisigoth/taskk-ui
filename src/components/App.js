@@ -203,11 +203,13 @@ class App extends Component{
     } else {
       this.contractAll(this.unBump);
       let tarTiles = this.findNeighbor(tile, dir);
+      if (tarTiles.length > 0) {
 
-      let diff = tile.state.dimensions.top - tarTiles[0].state.dimensions.top;
-      let bumpAmt = diff > 0 ? 630 + diff : 630;
-      console.debug(tarTiles.map(x=>{return x.props.id}));
-      tarTiles[0].bump(bumpAmt);
+        let diff = tile.state.dimensions.top - tarTiles[0].state.dimensions.top;
+        let bumpAmt = diff > 0 ? 630 + diff : 630;
+        console.debug(tarTiles.map(x=>{return x.props.id}));
+        tarTiles[0].bump(bumpAmt);
+      }
     }
   }
 

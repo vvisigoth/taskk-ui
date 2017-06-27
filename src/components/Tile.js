@@ -31,6 +31,7 @@ const mapDispatchToProps = dispatch => {
 class Tile extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {};
     this.state.issueData = props.issue;
     this.state.expanded = false;
