@@ -19,7 +19,7 @@ const clone = function(obj) {
   return newObj
 }
 
-const colOrder = ['todo', 'doin', 'show', 'done'];
+//const colOrder = ['todo', 'doin', 'show', 'done'];
 
 const destCol = function(sourceCol, dir) {
   if ((colOrder.indexOf(sourceCol) === 0 && dir === 'left') || (colOrder.indexOf(sourceCol) === 3 && dir === 'right')) {
@@ -212,7 +212,7 @@ class App extends Component{
   }
 
   renderColumns() {
-    return Object.keys(this.props.board).map((k, i) => (
+    return colOrder.map((k, i) => (
       <Column key={k} col={i} colData={this.props.board[k]} slideTile={this.slideTile} name={k} clearWay={this.clearWay} ref={k}/>
     ));
   }

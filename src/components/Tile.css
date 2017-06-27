@@ -35,7 +35,7 @@ div.tile.expanded
 
 div.tile.expanded .description
 {
-  height: calc(100% - 90px);
+  height: calc(100% - 115px);
 }
 
 div.tile .submit
@@ -47,6 +47,10 @@ div.tile .delete
 {
   display: none;
   color: darkgrey;
+  float: left;
+  margin-left: 10px;
+  margin-top: 7px;
+  font-size: 1.7em;
 }
 
 div.tile.expanded .delete

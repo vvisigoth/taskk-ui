@@ -162,8 +162,9 @@ class Tile extends Component {
           };
   }
   classNames() {
+    let desc = this.props.issue ? this.props.issue.description : '';
     let c = ['tile'];
-    const count = (this.props.issue.description.match(/[\r\n]/g) || []).length;
+    const count = (desc.match(/[\r\n]/g) || []).length;
 
     // class based 
     if (this.state.expanded) {
@@ -188,12 +189,12 @@ class Tile extends Component {
     return (
       <div ref='tile' className={this.classNames()} onDoubleClick={this.handleClick} draggable="true" onDragStart={this.handleDragStart} onDragOver={this.handleDragOver} onDrop={this.handleDrop} style={{ marginTop: this.state.bumpAmt}} > 
         <div className="tile-container"> 
-          <input className="title" type="text" ref="title" value={this.props.issue.title}/> 
-          <input className="author" type="text" ref="author" value={this.props.issue.author}/> 
+          <input className="title" type="text" ref="title" value={this.props.issue ? this.props.issue.title : ''}/> 
+          <input className="author" type="text" ref="author" value={this.props.issue ? this.props.issue.author: ''}/> 
         </div> 
         <div className="indicator"></div> 
-        <textarea className="description" ref="description" onChange={this.handleChange} defaultValue={this.props.issue.description}></textarea> 
-        <input className="assignee" type="text" ref="assignee" value={this.props.issue.assignee}/> 
+        <textarea className="description" ref="description" onChange={this.handleChange} defaultValue={this.props.issue ? this.props.issue.description : ''}></textarea> 
+        <input className="assignee" type="text" ref="assignee" value={this.props.issue ? this.props.issue.assignee : ''}/> 
         <span className="delete" onClick={this.handleDelete}>X</span>
         <input className="submit" type="submit" onClick={this.submitChanges}/> 
       </div>

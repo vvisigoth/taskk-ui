@@ -45,10 +45,27 @@ class Column extends Component {
   slideTile(t, d) {
     return this.props.slideTile(t, d);
   }
+  handleDrop(e) {
+    e.preventDefault();
+    console.debug('dropped');
+    let st = e.nativeEvent.dataTransfer.getData('text');
+    let stParsed = st.split('|');
+    const phase = stParsed[0];
+    const id = stParsed[1];
+    this.props.postMoveIssue(phase, id, this.props.name, 0);
+  }
+  handleDragOver(e) {
+    e.preventDefault();
+    console.debug('dragover');
+  }
   renderTiles() {
-    return this.props.phase.map(t => (
+    if (this.props.phase) 
+    { return this.props.phase.map(t => (
       <Tile draggable="true" key={t.issueId} id={t.issueId} col={this.props.name} clearWay={this.clearWay} slideTile={this.slideTile} issueData={t} ref={t.issueId}/>
     ));
+    } else {
+      return (<div></div>)
+    }
   }
   render() {
     return (
@@ -57,8 +74,8 @@ class Column extends Component {
           <div className="headlet-container">{this.props.name}</div>
           <div className="add-button" onClick={this.handleClick} >+</div>
         </div>
-        <div className="col-container" >
-          {this.renderTiles()}
+        <div className={!this.props.phase || this.props.phase.length < 1 ? "nothing col-container" : "something col-container"} onDrop={this.handleDrop} onDragOver={this.handleDragOver}> 
+        {this.renderTiles()}
         </div>
       </div>
     );

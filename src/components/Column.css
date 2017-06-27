@@ -31,6 +31,10 @@ div.headlet .add-button
   cursor: pointer;
 }
 
+div.col-container.nothing {
+  height: 400px;
+}
+
 div.headlet .add-button:hover
 {
   color: darkgray;
