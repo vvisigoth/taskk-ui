@@ -10,10 +10,13 @@ front end from a blob of jquery into something semi-rational(React + Redux).
 
 
 ## High Level Todo
-- wireup
 - css
 - keyshortcuts
 - rename clearway
 - Subscriptions
+- update on backend change
 
 ## Low-Level Todo
+- expand last column
+- delete
+
