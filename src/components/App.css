@@ -4,6 +4,12 @@ body
   font-family: bau;
 }
 
+div#loading-indicator {
+  height: 20px;
+  width: 20px;
+  background-color: yellow;
+}
+
 .show {
   display: default;
   position: absolute;

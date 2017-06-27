@@ -5,8 +5,9 @@ import Column from './Column';
 import './App.css';
 import './Tile.css';
 
-import { moveIssue, setBoard } from '../actions/actions';
+import { colOrder } from '../utils';
 
+import { postMoveIssue, setBoard } from '../actions/actions';
 
 //import moveTile from './actions/board';
 
@@ -34,13 +35,14 @@ const destCol = function(sourceCol, dir) {
 const mapStateToProps = state => {
   return {
     board: state.board,
-    urb: state.urb
+    urb: state.urb,
+    loading: state.loading
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    moveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(moveIssue(sourcePhase, sourceId, targetPhase, targetId)),
+    postMoveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(postMoveIssue(sourcePhase, sourceId, targetPhase, targetId)),
     getBoard: () => {dispatch({type: 'GET_BOARD_DATA'})},
     setBoard: (host, board) => {dispatch(setBoard(host, board))}
   }
@@ -78,7 +80,7 @@ class App extends Component{
     let dc = destCol(tile.props.col, dir);
     //let tmpIssueObj = clone(tile.state.issueData);
     let destTile = this.findNeighbor(tile, dir);
-    this.props.moveIssue(tile.props.col, tile.props.id, dc, destTile[0].props.id);
+    this.props.postMoveIssue(tile.props.col, tile.props.id, dc, destTile[0].props.id);
   }
 
   intersectRect(r1, r2) {
@@ -219,6 +221,8 @@ class App extends Component{
     console.debug('render');
     return (
       <div className="cont">
+        <div id="loading-indicator" className={this.props.loading ? 'show' : 'hide'}>
+        </div>
         {this.renderColumns()}
       </div>
     )

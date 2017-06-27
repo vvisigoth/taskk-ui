@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Tile from './Tile';
 import './Column.css';
-import { createIssue } from '../actions/actions';
+import { postCreateIssue, postMoveIssue, createIssue } from '../actions/actions';
 
 import { defaultIssue } from '../utils';
 
@@ -18,7 +18,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createIssue: (phase, issueObj) => dispatch(createIssue(phase, issueObj))
+    createIssue: (phase, issueObj) => dispatch(createIssue(phase, issueObj)),
+    postCreateIssue: (phase, issueObj) => dispatch(postCreateIssue(phase, issueObj)),
+    postMoveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(postMoveIssue(sourcePhase, sourceId, targetPhase, targetId))
   }
 };
 
@@ -31,9 +33,11 @@ class Column extends Component {
     this.slideTile = this.slideTile.bind(this);
     this.state = {};
     this.handleClick = this.handleClick.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
+    this.handleDragOver = this.handleDragOver.bind(this);
   }
   handleClick() {
-    this.props.createIssue(this.props.name, defaultIssue);
+    this.props.postCreateIssue(this.props.name, defaultIssue);
   }
   clearWay(dim, dir) {
     return this.props.clearWay(dim, dir);

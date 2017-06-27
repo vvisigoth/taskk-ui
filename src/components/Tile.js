@@ -2,8 +2,9 @@
 
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { obj2Yaml } from '../utils';
 
-import { moveIssue, updateIssue, deleteIssue } from '../actions/actions';
+import { postMoveIssue, postUpdateIssue, postDeleteIssue } from '../actions/actions';
 
 import './Tile.css';
 
@@ -21,9 +22,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateIssue: (issueId, issueObj) => dispatch(updateIssue(issueId, issueObj)),
-    moveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(moveIssue(sourcePhase, sourceId, targetPhase, targetId)),
-    deleteIssue: (issueId) => dispatch(deleteIssue(issueId))
+    postUpdateIssue: (issueId, issueObj) => dispatch(postUpdateIssue(issueId, issueObj)),
+    postMoveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(postMoveIssue(sourcePhase, sourceId, targetPhase, targetId)),
+    postDeleteIssue: (phase, issueId) => dispatch(postDeleteIssue(phase, issueId))
   }
 };
 
@@ -56,13 +57,15 @@ class Tile extends Component {
     this.handleDelete = this.handleDelete.bind(this);
   }
   submitChanges() {
-    this.props.updateIssue(this.props.id, this.state.issueData);
+    let id = this.state.issueData;
+    console.debug(id);
+    this.props.postUpdateIssue(this.props.id, Object.assign(id, {description: obj2Yaml(id), phase: this.props.col}));
   }
 
   handleDelete(e) {
     console.debug('handle delete');
     this.clearWay();
-    this.props.deleteIssue(this.props.id);
+    this.props.postDeleteIssue(this.props.col, this.props.id);
   }
 
   handleDragOver(e) {
@@ -79,7 +82,7 @@ class Tile extends Component {
     let stParsed = st.split('|');
     const phase = stParsed[0];
     const id = stParsed[1];
-    this.props.moveIssue(phase, id, this.props.col, this.props.id);
+    this.props.postMoveIssue(phase, id, this.props.col, this.props.id);
   }
 
   handleChange() {
