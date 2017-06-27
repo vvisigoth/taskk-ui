@@ -1,0 +1,33 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _tile = require('./tile');var _tile2 = _interopRequireDefault(_tile);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const createIssue = (state = []) => {
+  return [...state, (0, _tile2.default)(undefined, { type: 'UPDATE_ISSUE' })];
+};
+
+const deleteIssue = (state = [], issueId) => {
+  //write this
+  let index = 0;
+  state.forEach((t, i) => {if (issueId == t.issueId) {index = i;}});
+  return [...state.slice(0, index), ...state.slice(index + 1)];
+
+};
+
+const insertIssue = (state = [], issueId, issueObj) => {
+  let index = 0;
+  state.forEach((t, i) => {if (issueId == t.issueId) {index = i;}});
+  return [...state.slice(0, index), (0, _tile2.default)(issueObj, { type: 'UPDATE_ISSUE' }), ...state.slice(index)];
+};exports.default =
+
+(state = [], action) => {
+  console.log(action);
+  switch (action.type) {
+    case 'INSERT_ISSUE':
+      return insertIssue(state, action.issueId, action.issueObj);
+    case 'CREATE_ISSUE':
+      return createIssue(state);
+    case 'DELETE_ISSUE':
+      return deleteIssue(state, action.issueId);
+    default:
+      return state;}
+  ;
+};

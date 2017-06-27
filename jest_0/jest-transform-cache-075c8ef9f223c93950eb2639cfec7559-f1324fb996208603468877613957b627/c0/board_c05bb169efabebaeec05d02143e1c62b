@@ -1,0 +1,15 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _column = require('./column');var _column2 = _interopRequireDefault(_column);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const moveIssue = (state = {}, sourcePhase, sourceId, targetPhase, targetId) => {
+  return state;
+
+};exports.default =
+
+(state = {}, action) => {
+  switch (action.type) {
+    case 'MOVE_ISSUE':
+      return moveIssue(state, action.sourcePhase, action.sourceId, action.targetPhase, action.targetId);
+    default:
+      return state;}
+  ;
+};

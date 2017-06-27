@@ -1,0 +1,33 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _column = require('./column');var _column2 = _interopRequireDefault(_column);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const findIssue = (phase, id) => {
+  let index = -1;
+  phase.forEach((t, i) => {if (issueId == t.issueId) {index = i;}});
+  return index;
+};
+
+//this default is probably wrong
+const moveIssue = (state = {}, sourcePhase, sourceId, targetPhase, targetId) => {
+  let p1 = [...state[sourcePhase]];
+  console.log(p1);
+  let p2 = [...state[targetPhase]];
+  console.log(p2);
+  //retrieve issue to be moved
+  let tmpIss = (0, _column2.default)(p1, { type: 'RETRIEVE_ISSUE', issueId: sourceId });
+  console.log(tmpIssue
+  //delete issue to be moved 
+  );let tmpBoardFrag = {};
+  tmpBoardFrag[sourcePhase] = (0, _column2.default)(p1, { type: 'DELETE_ISSUE', issueId: sourceId });
+  tmpBoardFrag[targetPhase] = (0, _column2.default)(p2, { type: 'INSERT_ISSUE', issueId: targetId, issueObj: tmpIss });
+  return Object.assign({}, state, tmpBoardFrag);
+};exports.default =
+
+(state = {}, action) => {
+  switch (action.type) {
+    case 'MOVE_ISSUE':
+      return moveIssue(state, action.sourcePhase, action.sourceId, action.targetPhase, action.targetId);
+    default:
+      console.log('unrecognized action');
+      return state;}
+  ;
+};

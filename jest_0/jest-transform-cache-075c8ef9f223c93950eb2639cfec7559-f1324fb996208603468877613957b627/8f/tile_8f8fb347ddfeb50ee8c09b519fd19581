@@ -1,0 +1,27 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true }); // change this to issue
+const saveIssue = (state, issueObj) => {
+  console.debug(state);
+
+  if (typeof issueObj === 'undefined') {
+    return state;
+  } else {
+    return Object.assign({}, state, issueObj);
+  }
+};exports.default =
+
+(state = {
+  issueId: '',
+  title: '',
+  description: '',
+  author: '',
+  assignee: '' },
+action) => {
+  switch (action.type) {
+    case 'UPDATE_ISSUE':
+      return saveIssue(state, action.issueObj);
+    case 'DELETE_ISSUE':
+      return {};
+    default:
+      return state;}
+
+};

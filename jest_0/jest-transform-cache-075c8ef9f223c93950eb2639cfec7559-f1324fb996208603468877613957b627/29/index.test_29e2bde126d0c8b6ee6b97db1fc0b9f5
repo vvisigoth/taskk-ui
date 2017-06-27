@@ -1,0 +1,88 @@
+'use strict';var _index = require('./index');var _index2 = _interopRequireDefault(_index);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+//describe('>>>TILE REDUCER', () => {
+//
+//  it('initializes an issue', () => {
+//    const stateBefore = {};
+//    const stateAfter = {
+//      tile: {
+//        issueId: '',
+//        title:'',
+//        description:'',
+//        author:'',
+//        assignee: ''
+//      }
+//    };
+//
+//    const action = {type: 'UPDATE_ISSUE'};
+//
+//    expect(rootReducer(stateBefore, action)).toEqual(stateAfter);
+//  });
+//
+//  it('updates an issue', () => {
+//    const stateBefore = {
+//      tile: {
+//        issueId: '123',
+//        title:'',
+//        description:'',
+//        author:'',
+//        assignee: ''
+//      }
+//    };
+//    const stateAfter = {
+//      tile: {
+//        issueId: '123',
+//        title:'testTitle',
+//        description:'',
+//        author:'',
+//        assignee: ''
+//      }
+//    };
+//    const action = { type: 'UPDATE_ISSUE', issueObj: { title: 'testTitle'}};
+//
+//    expect(rootReducer(stateBefore, action)).toEqual(stateAfter);
+//
+//  })
+//
+//
+//});
+//
+describe('>>>PHASE REDUCER', () => {
+  it('creates a new issue', () => {
+    const stateBefore = {
+      column: [] };
+
+    const stateAfter = {
+      column: [
+      {
+        issueId: '',
+        title: '',
+        description: '',
+        author: '',
+        assignee: '' }] };
+
+
+
+    const action = { type: 'CREATE_ISSUE' };
+
+    expect((0, _index2.default)(stateBefore, action)).toEqual(stateAfter);
+
+  });
+  it('deletes an issue', () => {
+    const stateBefore = {
+      column: [
+      {
+        issueId: '123',
+        title: '',
+        description: '',
+        author: '',
+        assignee: '' }] };
+
+
+
+    const stateAfter = {
+      column: [] };
+
+    const action = { type: 'DELETE_ISSUE' };
+  });
+});

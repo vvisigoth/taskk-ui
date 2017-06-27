@@ -1,0 +1,46 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _tile = require('./tile');var _tile2 = _interopRequireDefault(_tile);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const createIssue = (state = [], issueObj) => {
+
+
+  return [(0, _tile2.default)(undefined, { type: 'UPDATE_ISSUE', issueObj: issueObj }), ...state];
+};
+
+const deleteIssue = (state = [], issueId) => {
+  //waht about default
+  let index = -1;
+  state.forEach((t, i) => {if (issueId == t.issueId) {index = i;}});
+  console.log(index);
+  if (index > -1) {
+    [...state.slice(0, index), ...state.slice(index + 1)];
+  } else {
+    return [...state];
+  }
+};
+
+const retrieveIssue = (state = [], issueId) => {
+  let index = 0;
+  state.forEach((t, i) => {if (issueId == t.issueId) {index = i;}});
+  return state[index];
+};
+
+const insertIssue = (state = [], issueId, issueObj) => {
+  let index = 0;
+  state.forEach((t, i) => {if (issueId == t.issueId) {index = i;}});
+  return [...state.slice(0, index), (0, _tile2.default)(issueObj, { type: 'UPDATE_ISSUE' }), ...state.slice(index)];
+};exports.default =
+
+(state = [], action) => {
+  switch (action.type) {
+    case 'INSERT_ISSUE':
+      return insertIssue(state, action.issueId, action.issueObj);
+    case '_CREATE_ISSUE':
+      return createIssue(state, action.issueObj);
+    case '_DELETE_ISSUE':
+      return deleteIssue(state, action.issueId);
+    case 'RETRIEVE_ISSUE':
+      return retrieveIssue(state, action.issueId);
+    default:
+      return state;}
+  ;
+};

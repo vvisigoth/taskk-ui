@@ -1,0 +1,17 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _tile = require('./tile');var _tile2 = _interopRequireDefault(_tile);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const createIssue = (state = []) => {
+  return [...state, (0, _tile2.default)({}, { type: 'UPDATE_ISSUE' })];
+};exports.default =
+
+(state = [], action) => {
+  console.log(action);
+  switch (action.type) {
+    case 'CREATE_ISSUE':
+      return createIssue(state);
+    case 'DELETE_ISSUE':
+      return deleteIssue(state, action.issueId);
+    default:
+      return state;}
+  ;
+};

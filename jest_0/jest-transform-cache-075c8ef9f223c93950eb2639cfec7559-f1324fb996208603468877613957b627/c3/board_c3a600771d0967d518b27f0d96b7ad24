@@ -1,0 +1,76 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _column = require('./column');var _column2 = _interopRequireDefault(_column);
+var _tile = require('./tile');var _tile2 = _interopRequireDefault(_tile);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const findIssue = (phase, id) => {
+  let index = -1;
+  phase.forEach((t, i) => {if (issueId == t.issueId) {index = i;}});
+  return index;
+};
+
+//this default is probably wrong
+const moveIssue = (state = {}, sourcePhase, sourceId, targetPhase, targetId) => {
+  let p1 = [...state[sourcePhase]];
+  let p2 = [...state[targetPhase]];
+  //retrieve issue to be moved
+  let tmpIss = (0, _column2.default)(p1, { type: 'RETRIEVE_ISSUE', issueId: sourceId });
+  //delete issue to be moved 
+  let tmpBoardFrag = {};
+  tmpBoardFrag[sourcePhase] = (0, _column2.default)(p1, { type: '_DELETE_ISSUE', issueId: sourceId });
+  tmpBoardFrag[targetPhase] = (0, _column2.default)(p2, { type: 'INSERT_ISSUE', issueId: targetId, issueObj: tmpIss });
+  return Object.assign({}, state, tmpBoardFrag);
+};
+
+const createIssue = (state = {}, phase, issueObj) => {
+  let tmpBoardFrag = {};
+  if (state[phase]) {
+    tmpBoardFrag[phase] = (0, _column2.default)(state[phase], { type: '_CREATE_ISSUE', issueObj: issueObj });
+  } else {
+    tmpBoardFrag[phase] = (0, _column2.default)([], { type: '_CREATE_ISSUE', issueObj: issueObj });
+  }
+  return Object.assign({}, state, tmpBoardFrag);
+};
+
+const createPhase = (state = {}, phase) => {
+  let tmpBoardFrag = {};
+  tmpBoardFrag[phase] = [];
+  return Object.assign({}, state, tmpBoardFrag);
+};
+
+const deleteIssue = (state = {}, issueId) => {
+  let tmpBoardFrag = {};
+  Object.keys(state).forEach(k => {tmpBoardFrag[k] = (0, _column2.default)(state[k], { type: '_DELETE_ISSUE', issueId: issueId });});
+  return tmpBoardFrag;
+};
+
+const updateIssue = (state = {}, issueId, issueObj) => {
+  let tmpBoardFrag = {};
+  Object.keys(state).forEach(
+  k => {
+    tmpBoardFrag[k] =
+    state[k].map(j => {
+      if (j.issueId == issueId) {
+        return Object.assign(j, issueObj);
+      } else {
+        return j;
+      }
+    });
+  });
+  return tmpBoardFrag;
+};exports.default =
+
+(state = {}, action) => {
+  switch (action.type) {
+    case 'CREATE_ISSUE':
+      return createIssue(state, action.phase, action.issueObj);
+    case 'CREATE_PHASE':
+      return createPhase(state, action.phase);
+    case 'UPDATE_ISSUE':
+      return updateIssue(state, action.issueId, action.issueObj);
+    case 'DELETE_ISSUE':
+      return deleteIssue(state, action.issueId);
+    case 'MOVE_ISSUE':
+      return moveIssue(state, action.sourcePhase, action.sourceId, action.targetPhase, action.targetId);
+    default:
+      return state;}
+  ;
+};

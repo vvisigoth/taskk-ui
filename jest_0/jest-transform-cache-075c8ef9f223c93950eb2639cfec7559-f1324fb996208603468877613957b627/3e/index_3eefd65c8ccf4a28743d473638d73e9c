@@ -1,0 +1,11 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _tile = require('./tile');var _tile2 = _interopRequireDefault(_tile);
+var _column = require('./column');var _column2 = _interopRequireDefault(_column);
+var _board = require('./board');var _board2 = _interopRequireDefault(_board);
+var _redux = require('redux');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const rootReducer = (0, _redux.combineReducers)({
+  board: _board2.default });exports.default =
+
+
+
+rootReducer;
