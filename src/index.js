@@ -23,7 +23,7 @@ ReactDOM.render(
 
 //console.debug(StoreInstance.getState());
 
-StoreInstance.dispatch({type: 'POST_SUBSCRIBE'});
+StoreInstance.dispatch({type: 'URB_SUBSCRIBE'});
 
 let old = false;
 
@@ -38,7 +38,7 @@ const handleChange = () => {
   let neu = select(StoreInstance.getState());
   if (neu !== old) {
     old = neu;
-    StoreInstance.dispatch({type: 'GET_BOARD_DATA'});
+    StoreInstance.dispatch({type: 'GET_BOARD'});
   } else {
     return 
   }

@@ -59,7 +59,7 @@ export default(state = {}, action) => {
       return deleteIssue(state, action.issueId);
     case 'MOVE_ISSUE':
       return moveIssue(state, action.sourcePhase, action.sourceId, action.targetPhase, action.targetId);
-    case 'GET_BOARD_DATA_RECEIVED':
+    case 'GET_BOARD_RECEIVED':
       return action.data;
     default:
 

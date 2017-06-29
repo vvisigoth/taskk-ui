@@ -5,7 +5,7 @@ const listener = (e, r, s) => {
   switch (r.data['action-completed']) {
     case 'request-board':
       s.dispatch({
-        type: 'GET_BOARD_DATA_RECEIVED',
+        type: 'GET_BOARD_RECEIVED',
         data: massageBoard(r.data['response-data'])
       });
       break
@@ -28,7 +28,7 @@ const listener = (e, r, s) => {
 const dataService = store => next => action => {
   next(action);
   switch (action.type) {
-    case 'POST_SUBSCRIBE':
+    case 'URB_SUBSCRIBE':
       console.debug('subscribing!');
       let h = store.getState().urb.host;
       let b = store.getState().urb.board;
@@ -40,7 +40,7 @@ const dataService = store => next => action => {
         })
       });
       break
-    case 'POST_CREATE_ISSUE_DATA':
+    case 'URB_CREATE_ISSUE':
       window.urb.send({
         'action': 'create-issue',
         'host': store.getState().urb.host,
@@ -56,7 +56,7 @@ const dataService = store => next => action => {
         console.debug(r);
       });
       break
-    case 'POST_DELETE_ISSUE_DATA':
+    case 'URB_DELETE_ISSUE':
       window.urb.send({
         'action': 'delete-issue',
         'host': store.getState().urb.host,
@@ -73,7 +73,7 @@ const dataService = store => next => action => {
         }
       });
       break
-    case 'POST_UPDATE_ISSUE_DATA':
+    case 'URB_UPDATE_ISSUE':
       console.debug(action);
       console.debug(store.getState().urb);
       window.urb.send({
@@ -93,7 +93,7 @@ const dataService = store => next => action => {
         }
       });
       break
-    case 'POST_MOVE_ISSUE_DATA':
+    case 'URB_MOVE_ISSUE':
       console.debug(action);
       if (action.sourcePhase == action.targetPhase) {
         break;
@@ -112,7 +112,7 @@ const dataService = store => next => action => {
         }
       });
       break
-    case 'GET_BOARD_DATA':
+    case 'GET_BOARD':
       window.urb.send({
         action: 'request-board',
         host: store.getState().urb.host,

@@ -43,7 +43,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     postMoveIssue: (sourcePhase, sourceId, targetPhase, targetId) => dispatch(postMoveIssue(sourcePhase, sourceId, targetPhase, targetId)),
-    getBoard: () => {dispatch({type: 'GET_BOARD_DATA'})},
+    getBoard: () => {dispatch({type: 'GET_BOARD'})},
     setBoard: (host, board) => {dispatch(setBoard(host, board))}
   }
 };
