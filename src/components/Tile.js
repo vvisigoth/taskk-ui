@@ -59,12 +59,10 @@ class Tile extends Component {
   }
   submitChanges() {
     let id = this.state.issueData;
-    console.debug(id);
     this.props.postUpdateIssue(this.props.id, Object.assign(id, {description: obj2Yaml(id), phase: this.props.col}));
   }
 
   handleDelete(e) {
-    console.debug('handle delete');
     this.clearWay();
     this.props.postDeleteIssue(this.props.col, this.props.id);
   }
