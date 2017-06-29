@@ -30,7 +30,6 @@ collaborate, see the instructions in the docs on syncing desks.
 
 ## TODO
 - keyshortcuts
-- rename clearway
 - Notify assignee on change
 - Better uuid
 
