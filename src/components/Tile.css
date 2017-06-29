@@ -10,7 +10,7 @@ div.tile
   position: static;
 }
 
-div#col3 div.tile.expanded
+div.column:last-child div.tile.expanded
 {
   margin-left: calc(-5px - 100%);
   width: calc(200% - 15px);
