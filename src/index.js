@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Route, HashRouter } from 'react-router-dom';
 
 
-import App from './components/App';
+import Board from './components/Board';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
@@ -15,7 +15,7 @@ const StoreInstance = Store();
 ReactDOM.render(
   <Provider store={StoreInstance}> 
     <HashRouter>
-      <Route path="/:host/:board" component={App}/>
+      <Route path="/:host/:board" component={Board}/>
     </HashRouter>
   </Provider>, 
   document.getElementById('root')
