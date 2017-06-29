@@ -47,16 +47,17 @@ class Column extends Component {
   }
   handleDrop(e) {
     e.preventDefault();
-    console.debug('dropped');
-    let st = e.nativeEvent.dataTransfer.getData('text');
-    let stParsed = st.split('|');
-    const phase = stParsed[0];
-    const id = stParsed[1];
-    this.props.postMoveIssue(phase, id, this.props.name, 0);
+    // only allow this if col is empty
+    if (!this.props.phase || this.props.phase.length < 1) {
+      let st = e.nativeEvent.dataTransfer.getData('text');
+      let stParsed = st.split('|');
+      const phase = stParsed[0];
+      const id = stParsed[1];
+      this.props.postMoveIssue(phase, id, this.props.name, 0);
+    }
   }
   handleDragOver(e) {
     e.preventDefault();
-    console.debug('dragover');
   }
   renderTiles() {
     if (this.props.phase) 
