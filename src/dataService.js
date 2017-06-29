@@ -94,6 +94,10 @@ const dataService = store => next => action => {
       });
       break
     case 'POST_MOVE_ISSUE_DATA':
+      console.debug(action);
+      if (action.sourcePhase == action.targetPhase) {
+        break;
+      };
       window.urb.send({
         'action': 'change-phase',
         'host': store.getState().urb.host,
