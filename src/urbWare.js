@@ -9,7 +9,7 @@ const listener = (e, r, s) => {
         data: massageBoard(r.data['response-data'])
       });
       break
-
+    case 'connect':
       s.dispatch({type: 'SUBSCRIBE_APP'});
       break
     case 'create-issue':

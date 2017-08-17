@@ -58,12 +58,10 @@ class Tile extends Component {
   }
   submitChanges() {
     let id = this.state.issueData;
-    console.debug(id);
     this.props.postUpdateIssue(this.props.id, Object.assign(id, {description: obj2Yaml(id), phase: this.props.col}));
   }
 
   handleDelete(e) {
-    console.debug('handle delete');
     this.clearWay();
     this.props.postDeleteIssue(this.props.col, this.props.id);
   }
@@ -101,7 +99,11 @@ class Tile extends Component {
 
   handleClick(e) {
     e.preventDefault();
-    this.clearWay(this, 'right');
+    if (this.props.lastCol) {
+        this.clearWay(this, 'last');
+    } else {
+        this.clearWay(this, 'right');
+    }
     this.expand();
     //this.slideTile(this, 'right');
   }
@@ -189,8 +191,13 @@ class Tile extends Component {
     return (
       <div ref='tile' className={this.classNames()} onDoubleClick={this.handleClick} draggable="true" onDragStart={this.handleDragStart} onDragOver={this.handleDragOver} onDrop={this.handleDrop} style={{ marginTop: this.state.bumpAmt}} > 
         <div className="tile-container"> 
+<<<<<<< HEAD
           <input className="title" type="text" ref="title" value={this.props.issue ? this.props.issue.title : ''}/> 
           <input className="author" type="text" ref="author" value={this.props.issue ? this.props.issue.author: ''}/> 
+=======
+          <input className="title" type="text" ref="title" onChange={this.handleChange} defaultValue={this.props.issue ? this.props.issue.title : ''}/> 
+          <input className="author" type="text" ref="author" onChange={this.handleChange} defaultValue={this.props.issue ? this.props.issue.author: ''}/> 
+>>>>>>> 88ce808498601a38ad4cdf59c1b1da429452c896
         </div> 
         <div className="indicator"></div> 
         <textarea className="description" ref="description" onChange={this.handleChange} defaultValue={this.props.issue ? this.props.issue.description : ''}></textarea> 

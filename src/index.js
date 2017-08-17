@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Route, HashRouter } from 'react-router-dom';
 
 
-import App from './components/App';
+import Board from './components/Board';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
@@ -15,7 +15,11 @@ const StoreInstance = Store();
 ReactDOM.render(
   <Provider store={StoreInstance}> 
     <HashRouter>
+<<<<<<< HEAD
       <Route path="/:host/:board" component={App}/>
+=======
+      <Route path="/:host/:board" component={Board}/>
+>>>>>>> 88ce808498601a38ad4cdf59c1b1da429452c896
     </HashRouter>
   </Provider>, 
   document.getElementById('root')
@@ -23,7 +27,7 @@ ReactDOM.render(
 
 //console.debug(StoreInstance.getState());
 
-StoreInstance.dispatch({type: 'POST_SUBSCRIBE'});
+StoreInstance.dispatch({type: 'URB_SUBSCRIBE'});
 
 let old = false;
 
@@ -38,7 +42,7 @@ const handleChange = () => {
   let neu = select(StoreInstance.getState());
   if (neu !== old) {
     old = neu;
-    StoreInstance.dispatch({type: 'GET_BOARD_DATA'});
+    StoreInstance.dispatch({type: 'GET_BOARD'});
   } else {
     return 
   }

@@ -1,14 +1,14 @@
 export default (state=false, action) => {
   switch (action.type) {
-    case 'POST_UPDATE_ISSUE_DATA':
+    case 'URB_UPDATE_ISSUE':
       return true;
-    case 'POST_CREATE_ISSUE_DATA':
+    case 'URB_CREATE_ISSUE':
       return true;
-    case 'POST_MOVE_ISSUE_DATA':
+    case 'URB_MOVE_ISSUE':
       return true;
-    case 'POST_DELETE_ISSUE_DATA':
+    case 'URB_DELETE_ISSUE':
       return true;
-    case 'GET_BOARD_DATA':
+    case 'GET_BOARD':
       return true;
     case 'UPDATE_ISSUE':
       return false;
@@ -18,7 +18,7 @@ export default (state=false, action) => {
       return false;
     case 'MOVE_ISSUE':
       return false;
-    case 'GET_BOARD_DATA_RECEIVED':
+    case 'GET_BOARD_RECEIVED':
       return false;
     default:
       return state;
