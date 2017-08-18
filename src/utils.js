@@ -19,6 +19,15 @@ export const parseIssue = d => {
     };
 };
 
+export const newId = txt => {
+  let t = txt.split(' ');
+  if (t.length < 4) {
+    return t.join('-') + '-' + parseInt(Math.random() * 1000);
+  } else {
+    return t.slice(0,3).join('-') + '-' + parseInt(Math.random() * 1000);
+  }
+};
+
 export const defaultIssue = {
   title: "Sample Tile",
   description: "describe your issue here",
