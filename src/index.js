@@ -15,11 +15,7 @@ const StoreInstance = Store();
 ReactDOM.render(
   <Provider store={StoreInstance}> 
     <HashRouter>
-<<<<<<< HEAD
-      <Route path="/:host/:board" component={App}/>
-=======
       <Route path="/:host/:board" component={Board}/>
->>>>>>> 88ce808498601a38ad4cdf59c1b1da429452c896
     </HashRouter>
   </Provider>, 
   document.getElementById('root')

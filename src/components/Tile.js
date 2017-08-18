@@ -191,13 +191,8 @@ class Tile extends Component {
     return (
       <div ref='tile' className={this.classNames()} onDoubleClick={this.handleClick} draggable="true" onDragStart={this.handleDragStart} onDragOver={this.handleDragOver} onDrop={this.handleDrop} style={{ marginTop: this.state.bumpAmt}} > 
         <div className="tile-container"> 
-<<<<<<< HEAD
-          <input className="title" type="text" ref="title" value={this.props.issue ? this.props.issue.title : ''}/> 
-          <input className="author" type="text" ref="author" value={this.props.issue ? this.props.issue.author: ''}/> 
-=======
           <input className="title" type="text" ref="title" onChange={this.handleChange} defaultValue={this.props.issue ? this.props.issue.title : ''}/> 
           <input className="author" type="text" ref="author" onChange={this.handleChange} defaultValue={this.props.issue ? this.props.issue.author: ''}/> 
->>>>>>> 88ce808498601a38ad4cdf59c1b1da429452c896
         </div> 
         <div className="indicator"></div> 
         <textarea className="description" ref="description" onChange={this.handleChange} defaultValue={this.props.issue ? this.props.issue.description : ''}></textarea> 
